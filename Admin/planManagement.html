@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan Management</title>
+    <link rel="icon" type="image/png" href="images/Screenshot__10_-removebg-preview.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            padding-top: 80px;
+            background-color: #f8f9fa;
+        }
+
+        .navbar {
+            background-color: rgb(159, 209, 242);
+            height: 65px;
+            border-bottom: 1px solid;
+            padding: 10px;
+        }
+        .sidebar {
+            background-color: white;
+            height: 100vh;
+            position: fixed;
+            width: 250px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            top:65px;
+            left: 0;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            padding: 15px 20px;
+            font-size: 18px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .sidebar ul li a {
+            text-decoration: none;
+            color: #333;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar ul li a i {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+
+        .sidebar ul li:hover {
+            background-color: rgb(159, 209, 242);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            padding: 3px 6px;
+            border-radius: 50%;
+            background: red;
+            color: white;
+            font-size: 12px;
+        }
+
+        .action-buttons {
+            margin: 20px 0;
+        }
+
+        .action-button {
+            background-color: rgb(159, 209, 242);
+            border: none;
+            min-width: 120px;
+            transition: all 0.3s;
+        }
+
+        .action-button:hover {
+            background-color: rgb(129, 179, 212);
+            transform: translateY(-2px);
+        }
+
+        .plan-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .plan-container.active {
+            display: block;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-control:focus {
+            border-color: rgb(159, 209, 242);
+            box-shadow: 0 0 0 0.2rem rgba(159, 209, 242, 0.25);
+        }
+
+        .action-footer {
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+
+        .main-content{
+            margin-left: 250px;
+            padding: 20px;
+            padding-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center ps-3" href="dashboard.html">
+                <img src="images/Screenshot__10_-removebg-preview.png" alt="Swift Top Logo" height="30">
+                <span class="ps-2 fs-4">Swift Top</span>
+            </a>
+            <form class="d-flex mx-auto w-50">
+                <div class="input-group w-100">
+                    <span class="input-group-text bg-light border-0">
+                        <i class="bi bi-search"></i>
+                    </span>
+                    <input class="form-control border-0" type="search" placeholder="Search ..." aria-label="Search">
+                </div>
+            </form>
+            <div class="position-relative me-4">
+                <i class="bi bi-bell fs-4"></i>
+                <span class="notification-badge">3</span>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container-fluid">
+            <div class="sidebar">
+                <ul class="list-group">
+                    <li class="list-group-item"><a href="dashboard.html" class="text-decoration-none text-dark fs-4"><i class="bi bi-house-door"></i> Dashboard</a></li>
+                    <li class="list-group-item pt-4"><a href="subscriberManagement.html" class="text-decoration-none text-dark fs-4"><i class="bi bi-people"></i> Subscribers</a></li>
+                    <li class="list-group-item pt-4"><a href="planManagement.html" class="text-decoration-none text-dark fs-4"><i class="bi bi-card-heading"></i> Plans</a></li>
+                    <li class="list-group-item pt-4"><a href="supportManagement.html" class="text-decoration-none text-dark fs-4"><i class="bi bi-chat-dots"></i> Support</a></li>
+                    <li class="list-group-item pt-4"><a href="adminLogin.html" class="text-decoration-none text-dark fs-4"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="main-content">
+            <!-- Action Buttons -->
+            <div class="action-buttons d-flex gap-3">
+                <button class="btn action-button" onclick="showContainer('add')">
+                    <i class="bi bi-plus-circle"></i> Add
+                </button>
+                <button class="btn action-button" onclick="showContainer('update')">
+                    <i class="bi bi-pencil-square"></i> Update
+                </button>
+                <button class="btn action-button" onclick="showContainer('delete')">
+                    <i class="bi bi-trash"></i> Delete
+                </button>
+            </div>
+    
+            <!-- Add Plan Container -->
+            <div id="addContainer" class="plan-container">
+                <h3 class="mb-4">Add New Plan</h3>
+                <form>
+                    <div class="row">
+                        <!-- Left Side -->
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Select Category</label>
+                                <select class="form-select">
+                                    <option selected disabled>Choose category...</option>
+                                    <option>Basic</option>
+                                    <option>Standard</option>
+                                    <option>Premium</option>
+                                    <option>Enterprise</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Plan Name</label>
+                                <input type="text" class="form-control" placeholder="Enter plan name">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Data</label>
+                                <input type="text" class="form-control" placeholder="Enter plan data">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Number of SMS</label>
+                                <input type="text" class="form-control" placeholder="Enter plan SMS count">
+                            </div>
+                        </div>
+            
+                        <!-- Right Side -->
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Talktime</label>
+                                <input type="text" class="form-control" placeholder="Enter plan talktime">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Price</label>
+                                <input type="number" class="form-control" placeholder="Enter price">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Duration (in months)</label>
+                                <input type="number" class="form-control" placeholder="Enter duration">
+                            </div>
+                            <div class="action-footer text-center">
+                                <button type="button" class="btn btn-secondary me-2" onclick="hideContainers()">Cancel</button>
+                                <button type="submit" class="btn action-button">Add Plan</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+    
+            <!-- Update Plan Container -->
+            <div id="updateContainer" class="plan-container">
+                <h3 class="mb-4">Update Plan</h3>
+                <form>
+                    <div class="row">
+                        <!-- Left Side -->
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Select Plan to Update</label>
+                                <select class="form-select mb-4">
+                                    <option selected disabled>Choose plan to update...</option>
+                                    <option>Basic Monthly</option>
+                                    <option>Standard Quarterly</option>
+                                    <option>Premium Annual</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Select Category</label>
+                                <select class="form-select">
+                                    <option selected disabled>Choose category...</option>
+                                    <option>Basic</option>
+                                    <option>Standard</option>
+                                    <option>Premium</option>
+                                    <option>Enterprise</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Plan Name</label>
+                                <input type="text" class="form-control" placeholder="Enter plan name">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Data</label>
+                                <input type="text" class="form-control" placeholder="Enter plan data">
+                            </div>
+                           
+                        </div>
+            
+                        <!-- Right Side -->
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Number of SMS</label>
+                                <input type="text" class="form-control" placeholder="Enter plan SMS count">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Talktime</label>
+                                <input type="text" class="form-control" placeholder="Enter plan talktime">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Price</label>
+                                <input type="number" class="form-control" placeholder="Enter price">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Duration (in months)</label>
+                                <input type="number" class="form-control" placeholder="Enter duration">
+                            </div>
+                            <div class="action-footer text-center">
+                                <button type="button" class="btn btn-secondary me-2" onclick="hideContainers()">Cancel</button>
+                                <button type="submit" class="btn action-button">Update Plan</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+    
+            <!-- Delete Plan Container -->
+            <div id="deleteContainer" class="plan-container">
+                <h3 class="mb-4">Delete Plan</h3>
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label">Select Plan to Delete</label>
+                        <select class="form-select">
+                            <option selected disabled>Choose plan to delete...</option>
+                            <option>Basic Monthly</option>
+                            <option>Standard Quarterly</option>
+                            <option>Premium Annual</option>
+                        </select>
+                    </div>
+                    <div class="action-footer text-center">
+                        <button type="button" class="btn btn-secondary me-2" onclick="hideContainers()">Cancel</button>
+                        <button type="submit" class="btn btn-danger">Delete Plan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            showContainer('add');
+        });
+
+        function showContainer(type) {
+            // Hide all containers first
+            hideContainers();
+            
+            // Show the selected container
+            document.getElementById(type + 'Container').classList.add('active');
+        }
+
+        function hideContainers() {
+            document.querySelectorAll('.plan-container').forEach(container => {
+                container.classList.remove('active');
+            });
+        }
+    </script>
+</body>
+</html>

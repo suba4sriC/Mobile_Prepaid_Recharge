@@ -4,13 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Support - Swift Top</title>
 
     <link rel="icon" type="image/png" href="images/Screenshot__10_-removebg-preview.png">
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <style>
@@ -26,7 +24,6 @@
             border-bottom: 1px solid;
             padding: 10px;
         }
-
 
         .sidebar {
             background-color: white;
@@ -64,7 +61,6 @@
             background-color: rgb(159, 209, 242);
         }
 
-
         .notification-badge {
             position: absolute;
             top: -5px;
@@ -76,6 +72,26 @@
             font-size: 12px;
         }
 
+        .section-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .card {
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-notify {
+            background-color: rgb(159, 209, 242);
+            border: none;
+        }
+
+        .btn-notify:hover {
+            background-color: rgb(139, 189, 222);
+        }
 
     </style>
 </head>
@@ -106,70 +122,62 @@
 
     <!-- Main Container -->
     <div class="container-fluid mt-5">
-        <div class="row ">
-            <div class="col-md-2 col-12 p-0 ">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-2 col-12 p-0">
                 <div class="sidebar">
-                    <ul class="list-group">
-                        <li class="list-group-item"><a href="#" class="text-decoration-none text-dark fs-4"><i class="bi bi-house-door"></i> Dashboard</a></li>
+                    <ul class="list-group ">
+                        <li class="list-group-item"><a href="dashboard.html" class=" text-dark fs-4"><i class="bi bi-house-door"></i> Dashboard</a></li>
                         <li class="list-group-item pt-4"><a href="subscriberManagement.html" class="text-decoration-none text-dark fs-4"><i class="bi bi-people"></i> Subscribers</a></li>
                         <li class="list-group-item pt-4"><a href="planManagement.html" class="text-decoration-none text-dark fs-4"><i class="bi bi-card-heading"></i> Plans</a></li>
-                        <li class="list-group-item pt-4"><a href="supportManagement.html" class="text-decoration-none text-dark fs-4"><i class="bi bi-chat-dots"></i> Support</a></li>
+                        <li class="list-group-item pt-4"><a href="support.html" class="text-decoration-none text-dark fs-4"><i class="bi bi-chat-dots"></i> Support</a></li>
                         <li class="list-group-item pt-4"><a href="adminLogin.html" class="text-decoration-none text-dark fs-4"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
                     </ul>
                 </div>
             </div>
 
-            <div class="col-md-10 col-12 p-5">
-                <h2>Dashboard</h2>
-
-                <div class="row mt-4">
-                    <!-- Card 1 -->
-                    <div class="col-md-3 col-12 mb-3">
-                        <div class="card shadow">
-                            <div class="card-body">
-                                <h5 class="card-title">Total Users</h5>
-                                <h2 class="card-text">700</h2>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card 2 -->
-                    <div class="col-md-3 col-12 mb-3">
-                        <div class="card shadow">
-                            <div class="card-body">
-                                <h5 class="card-title">Expiring Plans in 3 days <i class="bi bi-arrow-right"></i></h5>
-                                <h2 class="card-text">45</h2>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card 3 -->
-                    <div class="col-md-3 col-12 mb-3">
-                        <div class="card shadow">
-                            <div class="card-body">
-                                <h5 class="card-title">Total Revenue</h5>
-                                <h2 class="card-text">₹52,680</h2>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 col-12 mb-3">
-                        <div class="card shadow">
-                            <div class="card-body">
-                                <h5 class="card-title">Total Transactions</h5>
-                                <h2 class="card-text">1,240</h2>
-                            </div>
+            <!-- Support Section -->
+            <div class="col-md-10 p-4">
+                <!-- Pending Queries -->
+                <div class="mb-4">
+                    <div class="section-title">Pending Queries</div>
+                    <div class="card p-3">
+                        <p><strong>Name:</strong> John Doe</p>
+                        <p><strong>Mobile:</strong> +91 9876543210</p>
+                        <p><strong>Email:</strong> johndoe@example.com</p>
+                        <p><strong>Query:</strong> I need help with my plan activation. It's not working.</p>
+                        <textarea id="response-text" class="form-control mb-3" placeholder="Enter response..."></textarea>
+                        <div id="error-space" class="text-danger mt-2"></div>
+                        <div class="button-container text-center">
+                            <button class="btn btn-notify text-dark px-4" onclick="sendEmail('johndoe@example.com')">Notify</button>
+                            <button class="btn btn-secondary ms-2">Cancel</button>
                         </div>
                     </div>
                 </div>
 
-            </div> 
-        </div> <!-- Row Ends -->
+                
+            </div>
+        </div>
+    </div>
 
+    <!-- JavaScript for Sending Email -->
+    <script>
+        function sendEmail(email) {
+            let responseText = document.getElementById("response-text").value.trim();
+        let errorSpace = document.getElementById("error-space");
 
+        if (responseText === "") {
+            errorSpace.innerText = "Please enter a response before notifying.";
+            return;
+        } 
+        else {
+            errorSpace.innerText = ""; 
+        }
 
-
-    </div> <!-- Container Ends -->
+        let mailtoLink = `mailto:${email}?subject=Query Resolved&body=${encodeURIComponent(responseText)}`;
+        window.location.href = mailtoLink;
+        }
+    </script>
 
 </body>
 
