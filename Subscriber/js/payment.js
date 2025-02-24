@@ -1,7 +1,11 @@
-function confirmPayment(){
-    window.location.href="payment-success.html"
+function confirmPayment() {
+    window.location.href = "payment-success.html";
 }
 
+function clearErrorMessage(method) {
+    let errorContainer = document.getElementById(method.toLowerCase() + "Error");
+    errorContainer.innerText = "";
+}
 
 function openConfirmation(method) {
     let isValid = true;
@@ -11,6 +15,10 @@ function openConfirmation(method) {
         let upiId = document.getElementById("upiId").value.trim();
         let upiName = document.getElementById("upiName").value.trim();
         let amount = document.getElementById("amount").value.trim();
+
+        document.getElementById("upiId").addEventListener("input", function () { clearErrorMessage(method); });
+        document.getElementById("upiName").addEventListener("input", function () { clearErrorMessage(method); });
+        document.getElementById("amount").addEventListener("input", function () { clearErrorMessage(method); });
 
         if (!upiId || !upiName || !amount) {
             isValid = false;
@@ -22,6 +30,9 @@ function openConfirmation(method) {
         let bank = document.getElementById("bank").value.trim();
         let netAmount = document.getElementById("netAmount").value.trim();
 
+        document.getElementById("bank").addEventListener("input", function () { clearErrorMessage(method); });
+        document.getElementById("netAmount").addEventListener("input", function () { clearErrorMessage(method); });
+
         if (!bank || !netAmount) {
             isValid = false;
             errorMessage = "All fields are required.";
@@ -31,6 +42,9 @@ function openConfirmation(method) {
     if (method === "Wallet") {
         let walletId = document.getElementById("walletId").value.trim();
         let walletAmount = document.getElementById("walletAmount").value.trim();
+
+        document.getElementById("walletId").addEventListener("input", function () { clearErrorMessage(method); });
+        document.getElementById("walletAmount").addEventListener("input", function () { clearErrorMessage(method); });
 
         if (!walletId || !walletAmount) {
             isValid = false;
@@ -43,6 +57,11 @@ function openConfirmation(method) {
         let cardExpiry = document.getElementById("cardExpiry").value.trim();
         let cardCVV = document.getElementById("cardCVV").value.trim();
         let cardAmount = document.getElementById("cardAmount").value.trim();
+
+        document.getElementById("cardNumber").addEventListener("input", function () { clearErrorMessage(method); });
+        document.getElementById("cardExpiry").addEventListener("input", function () { clearErrorMessage(method); });
+        document.getElementById("cardCVV").addEventListener("input", function () { clearErrorMessage(method); });
+        document.getElementById("cardAmount").addEventListener("input", function () { clearErrorMessage(method); });
 
         if (!cardNumber || !cardExpiry || !cardCVV || !cardAmount) {
             isValid = false;

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expiring Plans</title>
+    
+    <!-- Bootstrap & DataTables CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+</head>
+<body>
+
+    <div class="container mt-5">
+        <h2 class="mb-4">Subscribers with Plans Expiring in 3 Days</h2>
+        <table id="expiringPlansTable" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Mobile Number</th>
+                    <th>Email</th>
+                    <th>Plan Name</th>
+                    <th>Validity</th>
+                    <th>Expiry Date</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+        // Sample subscriber data
+        const subscribers = [
+            {
+                name: "Subasri Chandrasekar",
+                mobile_number: "+91 9876543210",
+                email: "subasri@example.com",
+                active_plans: [
+                    { plan_name: "Unlimited 599", validity: "3", expiry_date: "2025-02-23", price: 599 }
+                ]
+            },
+            {
+                name: "Arjun Kumar",
+                mobile_number: "+91 9876512345",
+                email: "arjun@example.com",
+                active_plans: [
+                    { plan_name: "Work From Home 251", validity: "5", expiry_date: "2025-02-25", price: 251 }
+                ]
+            },
+            {
+                name: "Priya Sharma",
+                mobile_number: "+91 9876598765",
+                email: "priya@example.com",
+                active_plans: [
+                    { plan_name: "Daily 1.5GB - 56 Days", validity: "2", expiry_date: "2025-02-22", price: 399 }
+                ]
+            }
+        ];
+
+        // Function to filter subscribers whose plan expires in 3 days
+        function getExpiringSubscribers() {
+            const today = new Date();
+            return subscribers.flatMap(subscriber => 
+                subscriber.active_plans
+                    .filter(plan => parseInt(plan.validity) <= 3)
+                    .map(plan => ({
+                        name: subscriber.name,
+                        mobile_number: subscriber.mobile_number,
+                        email: subscriber.email,
+                        plan_name: plan.plan_name,
+                        validity: plan.validity + " days",
+                        expiry_date: plan.expiry_date,
+                        price: "₹" + plan.price
+                    }))
+            );
+        }
+
+        // Populate DataTable with expiring subscribers
+        $(document).ready(function () {
+            const expiringData = getExpiringSubscribers();
+            const tableBody = $("#expiringPlansTable tbody");
+
+            expiringData.forEach(subscriber => {
+                tableBody.append(`
+                    <tr>
+                        <td>${subscriber.name}</td>
+                        <td>${subscriber.mobile_number}</td>
+                        <td>${subscriber.email}</td>
+                        <td>${subscriber.plan_name}</td>
+                        <td>${subscriber.validity}</td>
+                        <td>${subscriber.expiry_date}</td>
+                        <td>${subscriber.price}</td>
+                    </tr>
+                `);
+            });
+
+            // Initialize DataTable
+            $("#expiringPlansTable").DataTable();
+        });
+    </script>
+
+</body>
+</html>

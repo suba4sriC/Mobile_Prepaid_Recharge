@@ -9,6 +9,10 @@
     <link rel="icon" type="image/png" href="images/Screenshot__10_-removebg-preview.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <style>
@@ -55,7 +59,7 @@
                 
                 <div id="history" class="d-none">
                     <h4>Recharge History</h4>
-                    <table class="table table-bordered">
+                    <table id="historyTable" class="table table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th>Plan Name</th>
@@ -63,8 +67,7 @@
                                 <th>Mode of Payment</th>
                             </tr>
                         </thead>
-                        <tbody id="history-data">
-                        </tbody>
+                        <tbody id="history-data"></tbody>
                     </table>
                 </div>
             </div>
@@ -72,25 +75,46 @@
     </div>
     
     <script>
+        $(document).ready(function () {
+            $("#historyTable").DataTable(); 
+        });
+
         function showHistory() {
             let subscriber = document.getElementById("subscriber-select").value;
             let historyDiv = document.getElementById("history");
             let historyData = document.getElementById("history-data");
-            historyData.innerHTML = "";
-            
-            if (subscriber === "john_doe") {
-                historyData.innerHTML = `
-                    <tr><td>Basic Plan</td><td>2024-01-15</td><td>Credit Card</td></tr>
-                    <tr><td>Premium Plan</td><td>2024-02-10</td><td>UPI</td></tr>
-                `;
-            } else if (subscriber === "jane_smith") {
-                historyData.innerHTML = `
-                    <tr><td>Standard Plan</td><td>2024-01-20</td><td>Net Banking</td></tr>
-                    <tr><td>Premium Plan</td><td>2024-02-05</td><td>Debit Card</td></tr>
-                `;
+
+            historyData.innerHTML = ""; 
+
+            let data = {
+                "john_doe": [
+                    { "plan": "Basic Plan", "date": "2024-01-15", "payment": "Credit Card" },
+                    { "plan": "Premium Plan", "date": "2024-02-10", "payment": "UPI" }
+                ],
+                "jane_smith": [
+                    { "plan": "Standard Plan", "date": "2024-01-20", "payment": "Net Banking" },
+                    { "plan": "Premium Plan", "date": "2024-02-05", "payment": "Debit Card" }
+                ]
+            };
+
+            if (data[subscriber]) {
+                data[subscriber].forEach(entry => {
+                    historyData.innerHTML += `
+                        <tr>
+                            <td>${entry.plan}</td>
+                            <td>${entry.date}</td>
+                            <td>${entry.payment}</td>
+                        </tr>
+                    `;
+                });
+
+                historyDiv.classList.remove("d-none");
+
+                // $("#historyTable").DataTable().destroy();
+                $("#historyTable").DataTable();
+            } else {
+                historyDiv.classList.add("d-none");
             }
-            
-            historyDiv.classList.toggle("d-none", !subscriber);
         }
     </script>
 </body>
