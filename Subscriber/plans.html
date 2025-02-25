@@ -120,6 +120,21 @@
             color: white;
         }
 
+        .scroll-to-top {
+        position: fixed;
+        bottom: 50px; 
+        right: 20px;
+        font-size: 2.0rem;
+        color: white;
+        cursor: pointer;
+        z-index: 1000;
+        transition: background-color 0.3s;
+        }
+
+        .scroll-to-top:hover {
+        color: black;
+        }
+
     </style>
 </head>
 <body>
@@ -206,7 +221,13 @@
                                     <p><strong>Data:</strong> 1GB/day</p>
                                     <p><strong>Talktime:</strong> Unlimited</p>
                                     <p><strong>SMS:</strong> 100 SMS</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
+                                    <button class="btn-recharge btn btn-primary"
+                                    onclick="goToPaymentPage(this)"
+                                    data-plan="Popular Plan 1"
+                                    data-price="₹299"
+                                    data-duration="28 Days">
+                                    Recharge Now
+                                    </button>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -670,6 +691,12 @@
             </div>
         </div>
     </div>
+
+    <a href="#top" class="scroll-to-top" title="Back to top">
+        <i class="bi bi-arrow-up-circle"></i>
+      </a>
+
+
     <footer class="footer  text-center" id="contactus">
         <p>&copy; 2025 Swift Top. All rights reserved.</p>
         <div class="social-icons">
@@ -681,9 +708,20 @@
     </footer>
 
     <script>
-        function goToPaymentPage() {
-            window.location.href = "payment.html"; 
-        }
+        function goToPaymentPage(buttonElem) {
+        const plan = buttonElem.getAttribute("data-plan");
+        const price = buttonElem.getAttribute("data-price");
+        const duration = buttonElem.getAttribute("data-duration");
+
+        const queryParams = new URLSearchParams({
+            plan: plan,
+            price: price,
+            duration: duration
+        });
+
+        window.location.href = "payment.html?" + queryParams.toString();
+}
+
     </script>
 
 </body>

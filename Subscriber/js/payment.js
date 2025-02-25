@@ -7,6 +7,8 @@ function clearErrorMessage(method) {
     errorContainer.innerText = "";
 }
 
+
+
 function openConfirmation(method) {
     let isValid = true;
     let errorMessage = "";
@@ -90,3 +92,33 @@ function openConfirmation(method) {
     let confirmationModal = new bootstrap.Modal(document.getElementById("confirmationModal"));
     confirmationModal.show();
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Parse URL parameters.
+    const params = new URLSearchParams(window.location.search);
+    const plan = params.get("plan");
+    const price = params.get("price");
+    const duration = params.get("duration");
+
+    if (plan && price && duration) {
+      // Update the plan details in all modals.
+      // UPI Modal
+      document.getElementById("upiPlanName").textContent = plan;
+      document.getElementById("upiPlanPrice").textContent = price;
+      document.getElementById("upiPlanDuration").textContent = duration;
+      // Net Banking Modal
+      document.getElementById("netPlanName").textContent = plan;
+      document.getElementById("netPlanPrice").textContent = price;
+      document.getElementById("netPlanDuration").textContent = duration;
+      // Wallet Modal
+      document.getElementById("walletPlanName").textContent = plan;
+      document.getElementById("walletPlanPrice").textContent = price;
+      document.getElementById("walletPlanDuration").textContent = duration;
+      // Card Modal
+      document.getElementById("cardPlanName").textContent = plan;
+      document.getElementById("cardPlanPrice").textContent = price;
+      document.getElementById("cardPlanDuration").textContent = duration;
+    } else {
+      console.warn("Plan details not found in URL parameters.");
+    }
+  });

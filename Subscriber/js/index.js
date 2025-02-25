@@ -55,6 +55,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (enteredOTP == generatedOTP) {
             otpError.textContent = "";
+
+            const mobileNumber = document.getElementById("mobile").value.trim();
+            const userData = { mobile: mobileNumber };
+            localStorage.setItem("userData", JSON.stringify(userData));
             window.location.href = "home.html";
         } else {
             otpError.textContent = "Invalid OTP. Try Again!";

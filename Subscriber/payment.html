@@ -87,22 +87,6 @@
             align-items: center;
         }
 
-        .footer {
-            background-color: rgb(125, 174, 207);
-            color: white;
-            padding: 9px 0;
-        }
-
-        .footer .social-icons a {
-            font-size: 1.5rem;
-            color: white;
-            margin: 0 10px;
-            transition: 0.3s;
-        }
-
-        .footer .social-icons a:hover {
-            color: #a0ebeb;
-        }
         
     </style>
 </head>
@@ -204,132 +188,193 @@
 
     <!-- UPI Modal -->
             <div class="modal fade" id="upiModal" tabindex="-1">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">UPI Details</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title">UPI Payment Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                        <!-- Left Section: Plan Details -->
+                        <div class="col-md-6 border-end">
+                            <h4>Plan Details</h4>
+                            <p><strong>Plan Name:</strong> <span id="upiPlanName"></span></p>
+                            <p><strong>Price:</strong> <span id="upiPlanPrice"></span></p>
+                            <p><strong>Duration:</strong> <span id="upiPlanDuration"></span></p>
                         </div>
-                        <div class="modal-body">
+            
+                        <!-- Right Section: Payment Details -->
+                        <div class="col-md-6">
                             <form id="upiForm">
-                                <div class="mb-3">
-                                    <label for="upiId" class="form-label ">UPI ID</label>
-                                    <input type="text" class="form-control " id="upiId" placeholder="Enter UPI ID" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="upiName" class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="upiName" placeholder="Enter name" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="amount" class="form-label">Amount</label>
-                                    <input type="text" class="form-control" id="amount" value="₹299" readonly>
-                                </div>
-                                <p id="upiError" class="text-danger"></p>
-                                <div class="text-center">
-                                    <button type="button" class="btn btn-primary" onclick="openConfirmation('UPI')">Proceed</button>
-                                </div>
+                            <div class="mb-3">
+                                <label for="upiId" class="form-label">UPI ID</label>
+                                <input type="text" class="form-control" id="upiId" placeholder="Enter UPI ID" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="upiName" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="upiName" placeholder="Enter name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="amount" class="form-label">Amount</label>
+                                <input type="text" class="form-control" id="amount" value="₹299" readonly>
+                            </div>
+                            <p id="upiError" class="text-danger"></p>
+                            <div class="text-center">
+                                <button type="button" class="btn btn-primary" onclick="openConfirmation('UPI')">Proceed</button>
+                            </div>
                             </form>
                         </div>
+                        </div>
+                    </div>
                     </div>
                 </div>
+                </div>
             </div>
+  
 
         <!-- Net Banking Modal -->
         <div class="modal fade" id="netBankingModal" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Net Banking</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title">Net Banking Payment</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                    <!-- Left Section: Plan Details -->
+                    <div class="col-md-6 border-end">
+                        <h4>Plan Details</h4>
+                        <p><strong>Plan Name:</strong> <span id="netPlanName"></span></p>
+                        <p><strong>Price:</strong> <span id="netPlanPrice"></span></p>
+                        <p><strong>Duration:</strong> <span id="netPlanDuration"></span></p>
+                      </div>
+                    <!-- Right Section: Net Banking Details -->
+                    <div class="col-md-6">
                         <form id="netBankingForm">
-                            <div class="mb-3">
-                                <label for="bank" class="form-label">Select Bank</label>
-                                <select class="form-control" id="bank" required>
-                                    <option value="">Select Bank</option>
-                                    <option value="Bank1">Bank 1</option>
-                                    <option value="Bank2">Bank 2</option>
-                                    <option value="Bank3">Bank 3</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="netAmount" class="form-label">Amount</label>
-                                <input type="text" class="form-control" id="netAmount" value="₹299" readonly>
-                            </div>
-                            <p id="netBankingError" class="text-danger"></p>
-                            <div class="text-center">
-                                <button type="button" class="btn btn-primary" onclick="openConfirmation('Net Banking')">Proceed</button>
-                            </div>
+                        <div class="mb-3">
+                            <label for="bank" class="form-label">Select Bank</label>
+                            <select class="form-control" id="bank" required>
+                            <option value="">Select Bank</option>
+                            <option value="Bank1">Bank 1</option>
+                            <option value="Bank2">Bank 2</option>
+                            <option value="Bank3">Bank 3</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="netAmount" class="form-label">Amount</label>
+                            <input type="text" class="form-control" id="netAmount" value="₹299" readonly>
+                        </div>
+                        <p id="netBankingError" class="text-danger"></p>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-primary" onclick="openConfirmation('Net Banking')">Proceed</button>
+                        </div>
                         </form>
                     </div>
+                    </div>
+                </div>
                 </div>
             </div>
+            </div>
         </div>
+  
 
-        <!-- Wallet Modal -->
+            <!-- Wallet Modal -->
         <div class="modal fade" id="walletModal" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Wallet Details</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title">Wallet Payment Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                    <!-- Left Section: Plan Details -->
+                    <div class="col-md-6 border-end">
+                        <h4>Plan Details</h4>
+                        <p><strong>Plan Name:</strong> <span id="walletPlanName"></span></p>
+                        <p><strong>Price:</strong> <span id="walletPlanPrice"></span></p>
+                        <p><strong>Duration:</strong> <span id="walletPlanDuration"></span></p>
                     </div>
-                    <div class="modal-body">
+                    <!-- Right Section: Wallet Payment Details -->
+                    <div class="col-md-6">
                         <form id="walletForm">
-                            <div class="mb-3">
-                                <label for="walletId" class="form-label">Wallet ID</label>
-                                <input type="text" class="form-control" id="walletId" placeholder="Enter Wallet ID" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="walletAmount" class="form-label">Amount</label>
-                                <input type="text" class="form-control" id="walletAmount" value="₹299" readonly>
-                            </div>
-                            <p id="walletError" class="text-danger"></p>
-                            <div class="text-center">
-                                <button type="button" class="btn btn-primary" onclick="openConfirmation('Wallet')">Proceed</button>
-                            </div>
+                        <div class="mb-3">
+                            <label for="walletId" class="form-label">Wallet ID</label>
+                            <input type="text" class="form-control" id="walletId" placeholder="Enter Wallet ID" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="walletAmount" class="form-label">Amount</label>
+                            <input type="text" class="form-control" id="walletAmount" value="₹299" readonly>
+                        </div>
+                        <p id="walletError" class="text-danger"></p>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-primary" onclick="openConfirmation('Wallet')">Proceed</button>
+                        </div>
                         </form>
                     </div>
+                    </div>
+                </div>
                 </div>
             </div>
+            </div>
         </div>
+  
 
         <!-- Credit/Debit Card Modal -->
         <div class="modal fade" id="cardModal" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Credit/Debit Card Details</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title">Credit/Debit Card Payment</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                    <!-- Left Section: Plan Details -->
+                    <div class="col-md-6 border-end">
+                        <h4>Plan Details</h4>
+                        <p><strong>Plan Name:</strong> <span id="cardPlanName"></span></p>
+                        <p><strong>Price:</strong> <span id="cardPlanPrice"></span></p>
+                        <p><strong>Duration:</strong> <span id="cardPlanDuration"></span></p>
+                      </div>
+                    <!-- Right Section: Card Payment Details -->
+                    <div class="col-md-6">
                         <form id="cardForm">
-                            <div class="mb-3">
-                                <label for="cardNumber" class="form-label">Card Number</label>
-                                <input type="text" class="form-control" id="cardNumber" placeholder="Enter Card Number" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="cardExpiry" class="form-label">Expiry Date (MM/YY)</label>
-                                <input type="text" class="form-control" id="cardExpiry" placeholder="MM/YY" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="cardCVV" class="form-label">CVV</label>
-                                <input type="text" class="form-control" id="cardCVV" placeholder="Enter CVV" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="cardAmount" class="form-label">Amount</label>
-                                <input type="text" class="form-control" id="cardAmount" value="₹299" readonly>
-                            </div>
-                            <p id="cardError" class="text-danger"></p>
-                            <div class="text-center">
-                                <button type="button" class="btn btn-primary" onclick="openConfirmation('Card')">Proceed</button>
-                            </div>
+                        <div class="mb-3">
+                            <label for="cardNumber" class="form-label">Card Number</label>
+                            <input type="text" class="form-control" id="cardNumber" placeholder="Enter Card Number" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cardExpiry" class="form-label">Expiry Date (MM/YY)</label>
+                            <input type="text" class="form-control" id="cardExpiry" placeholder="MM/YY" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cardCVV" class="form-label">CVV</label>
+                            <input type="text" class="form-control" id="cardCVV" placeholder="Enter CVV" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cardAmount" class="form-label">Amount</label>
+                            <input type="text" class="form-control" id="cardAmount" value="₹299" readonly>
+                        </div>
+                        <p id="cardError" class="text-danger"></p>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-primary" onclick="openConfirmation('Card')">Proceed</button>
+                        </div>
                         </form>
                     </div>
+                    </div>
+                </div>
                 </div>
             </div>
         </div>
+        </div>
+  
 
 
 
@@ -351,6 +396,8 @@
         </div>
     </div>
 
+    
+
     <!-- <footer class="footer  text-center mt-5" id="contactus">
         <p>&copy; 2025 Swift Top. All rights reserved.</p>
         <div class="social-icons">
@@ -362,81 +409,6 @@
     </footer> -->
 
     <script>
-
-
-        // function confirmPayment(){
-        //     window.location.href="payment-success.html"
-        // }
-
-
-        // function openConfirmation(method) {
-        //     let isValid = true;
-        //     let errorMessage = "";
-
-        //     if (method === "UPI") {
-        //         let upiId = document.getElementById("upiId").value.trim();
-        //         let upiName = document.getElementById("upiName").value.trim();
-        //         let amount = document.getElementById("amount").value.trim();
-
-        //         if (!upiId || !upiName || !amount) {
-        //             isValid = false;
-        //             errorMessage = "All fields are required.";
-        //         }
-        //     }
-
-        //     if (method === "Net Banking") {
-        //         let bank = document.getElementById("bank").value.trim();
-        //         let netAmount = document.getElementById("netAmount").value.trim();
-
-        //         if (!bank || !netAmount) {
-        //             isValid = false;
-        //             errorMessage = "All fields are required.";
-        //         }
-        //     }
-
-        //     if (method === "Wallet") {
-        //         let walletId = document.getElementById("walletId").value.trim();
-        //         let walletAmount = document.getElementById("walletAmount").value.trim();
-
-        //         if (!walletId || !walletAmount) {
-        //             isValid = false;
-        //             errorMessage = "All fields are required.";
-        //         }
-        //     }
-
-        //     if (method === "Card") {
-        //         let cardNumber = document.getElementById("cardNumber").value.trim();
-        //         let cardExpiry = document.getElementById("cardExpiry").value.trim();
-        //         let cardCVV = document.getElementById("cardCVV").value.trim();
-        //         let cardAmount = document.getElementById("cardAmount").value.trim();
-
-        //         if (!cardNumber || !cardExpiry || !cardCVV || !cardAmount) {
-        //             isValid = false;
-        //             errorMessage = "All fields are required.";
-        //         }
-        //     }
-
-        //     let errorContainer = document.getElementById(method.toLowerCase() + "Error");
-        //     if (!isValid) {
-        //         errorContainer.innerText = errorMessage;
-        //         errorContainer.style.color = "red";
-        //         return;
-        //     } else {
-        //         errorContainer.innerText = ""; 
-        //     }
-
-        //     selectedPaymentMethod = method;
-        //     document.getElementById("paymentMethod").innerText = method;
-
-        //     let openModals = document.querySelectorAll('.modal.show');
-        //     openModals.forEach(modal => {
-        //         let modalInstance = bootstrap.Modal.getInstance(modal);
-        //         modalInstance.hide();
-        //     });
-
-        //     let confirmationModal = new bootstrap.Modal(document.getElementById("confirmationModal"));
-        //     confirmationModal.show();
-        // }
 
 
     </script>
