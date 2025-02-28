@@ -135,6 +135,37 @@
         color: black;
         }
 
+
+        .search-input {
+            padding-right: 40px;
+            border: 2px solid rgb(125, 174, 207);
+            border-radius: 20px;
+            width: 100%;
+            padding: 8px 40px 8px 15px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            box-shadow: 0 0 5px rgba(125, 174, 207, 0.5);
+            border-color: rgb(125, 174, 207);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgb(125, 174, 207);
+            cursor: pointer;
+        }
+
+        .search-container {
+            position: relative;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
     </style>
 </head>
 <body>
@@ -144,10 +175,10 @@
             <a class="navbar-brand text-dark d-flex align-items-center" href="home.html">
                 <img src="images/Screenshot__10_-removebg-preview.png" alt="Swift Top Logo" height="30"> <label class="ps-2 fs-3">Swift Top</label>
             </a>
-            <form class="d-flex search-form ms-3">
-                <input class="form-control me-2" type="search" placeholder="Search plans..." aria-label="Search">
-                <button class="btn btn-outline-dark" type="submit">Search</button>
-            </form>
+            <div class="search-container ms-auto">
+                <input type="text" class="search-input" id="planSearch" placeholder="Search Plans...">
+                <i class="bi bi-search search-icon"></i>
+            </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>

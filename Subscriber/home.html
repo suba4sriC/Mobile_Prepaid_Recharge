@@ -108,9 +108,34 @@
             color: #a0ebeb;
         }
 
-        
-        .search-form {
+        .search-container {
+            position: relative;
             max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .search-input {
+            padding-right: 40px;
+            border: 2px solid rgb(125, 174, 207);
+            border-radius: 20px;
+            width: 100%;
+            padding: 8px 40px 8px 15px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            box-shadow: 0 0 5px rgba(125, 174, 207, 0.5);
+            border-color: rgb(125, 174, 207);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgb(125, 174, 207);
+            cursor: pointer;
         }
 
 
@@ -169,7 +194,7 @@
         /* Scroll-to-Top Button Styles */
         .scroll-to-top {
         position: fixed;
-        bottom: 50px; 
+        bottom: 90px; 
         right: 20px;
         font-size: 2.0rem;
         color: black;
@@ -192,10 +217,10 @@
                 <img src="images/Screenshot__10_-removebg-preview.png" alt="Swift Top Logo" height="30"> 
                 <label class="ps-2 fs-3">Swift Top</label>
             </a>
-            <form class="d-flex search-form ms-3">
-                <input class="form-control me-2" type="search" placeholder="Search FAQs" >
-                <button class="btn btn-outline-dark" type="submit">Search</button>
-            </form>
+            <div class="search-container ms-auto">
+                <input type="text" class="search-input" id="faqSearch" placeholder="Search FAQs...">
+                <i class="bi bi-search search-icon"></i>
+            </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -248,8 +273,8 @@
                             <label for="plan" class="form-label pt-3">Select Plan</label>
                             <select class="form-select w-100 " id="plan" >
                                 <option value="">Select a plan</option>
-                                <option value="Plan A">Popular Plan - ₹299</option>
-                                <option value="Plan B">Unlimited Plan- ₹499</option>
+                                <option value="Popular Plan">Popular Plan - ₹299</option>
+                                <option value="Unlimited Plan">Unlimited Plan- ₹499</option>
                             </select>
                         </div>
                         <div class="error-plan"></div>
@@ -394,55 +419,7 @@
         <i class="bi bi-arrow-up-circle"></i>
       </a>
 
-    <script>
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const userDataString = localStorage.getItem("userData");
-            if (userDataString) {
-                try {
-                const userData = JSON.parse(userDataString);
-                if (userData.mobile) {
-                    document.getElementById("phone").value = userData.mobile;
-                }
-                } catch (error) {
-                console.error("Error parsing userData:", error);
-                }
-            } else {
-                console.warn("No userData found in localStorage");
-            }
-        });
-
-
-        function redirectToPayment() {
-            let planSelection = document.getElementById("plan").value;
-            let errorDiv = document.querySelector(".error-plan");
-
-            if (planSelection === "") {
-            errorDiv.textContent = "Please select a plan.";
-            errorDiv.style.color = "red";
-            return;
-            } 
-            errorDiv.textContent = "";
-            
-            const price = planSelection === "Plan A" ? "₹299" : "₹499";
-            const duration = "1 Month";
-            
-            // Build the URL query string.
-            const queryParams = new URLSearchParams({
-            plan: planSelection,
-            price: price,
-            duration: duration
-            });
-            
-            // Redirect with the query parameters.
-            window.location.href = "payment.html?" + queryParams.toString();
-        }
-
-        document.getElementById("plan").addEventListener("change", function() {
-            document.querySelector(".error-plan").textContent = "";
-        });
-
-    </script>
+      <script src="js/home.js"></script>
     
 </body>
 </html>

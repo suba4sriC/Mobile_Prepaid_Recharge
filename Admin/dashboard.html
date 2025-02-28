@@ -64,6 +64,12 @@
             background-color: rgb(159, 209, 242);
         }
 
+        
+
+        .notification-container {
+            position: relative;
+            margin-right: 15px;
+        }
 
         .notification-badge {
             position: absolute;
@@ -84,6 +90,17 @@
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
 
+        .profile-icon {
+            font-size: 2rem;
+        }
+
+        .dropdown-toggle::after {
+            display: none;
+        }
+
+        .dropdown-item:hover{
+            background-color:rgb(159, 209, 242) ;
+        }
 
     </style>
 </head>
@@ -97,17 +114,19 @@
                 <img src="images/Screenshot__10_-removebg-preview.png" alt="Swift Top Logo" height="30">
                 <span class="ps-2 fs-4">Swift Top</span>
             </a>
-            <form class="d-flex mx-auto w-50">
-                <div class="input-group w-100">
-                    <span class="input-group-text bg-light border-0">
-                        <i class="bi bi-search"></i>
-                    </span>
-                    <input class="form-control border-0" type="search" placeholder="Search ..." aria-label="Search">
+            <div class="ms-auto d-flex align-items-center">
+                <div class="notification-container me-3">
+                    <i class="bi bi-bell fs-4"></i>
+                    <span class="notification-badge">3</span>
                 </div>
-            </form>
-            <div class="position-relative me-4">
-                <i class="bi bi-bell fs-4"></i>
-                <span class="notification-badge">3</span>
+                <div class="profile">
+                    <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" data-bs-placement="bottom" title="View Profile">
+                        <i class="bi bi-person-circle profile-icon"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                        <li><a class="dropdown-item" href="adminProfile.html">My Account</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </nav>
@@ -146,7 +165,7 @@
                         <div class="card shadow">
                             <div class="card-body">
                                 <h5 class="card-title">
-                                    Expiring Plans in 3 days 
+                                    Expiring Plans
                                     <a href="subscriberplanexpiry.html" class="text-decoration-none">
                                         <i class="bi bi-arrow-right"></i>
                                     </a>
@@ -198,72 +217,7 @@
 
     </div> <!-- Container Ends -->
 
-    <script>
-        const pieCtx = document.getElementById('paymentMethodsChart').getContext('2d');
-        new Chart(pieCtx, {
-            type: 'pie',
-            data: {
-                labels: ['Credit Card', 'Debit Card', 'UPI', 'Net Banking'],
-                datasets: [{
-                    data: [45, 25, 20, 10],
-                    backgroundColor: [
-                        'rgba(159, 209, 242, 0.8)',
-                        'rgba(145, 204, 230, 0.8)',
-                        'rgba(130, 190, 220, 0.8)',
-                        'rgba(115, 175, 210, 0.8)'
-                    ],
-                    borderColor: [
-                        'rgba(159, 209, 242, 1)',
-                        'rgba(145, 204, 230, 1)',
-                        'rgba(130, 190, 220, 1)',
-                        'rgba(115, 175, 210, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'right'
-                    },
-                    title: {
-                        display: true,
-                        text: 'Popular Payment Methods'
-                    }
-                }
-            }
-        });
-
-        const barCtx = document.getElementById('subscriptionPlansChart').getContext('2d');
-        new Chart(barCtx, {
-            type: 'bar',
-            data: {
-                labels: ['Basic', 'Standard', 'Premium', 'Enterprise'],
-                datasets: [{
-                    label: 'Number of Users',
-                    data: [150, 300, 200, 50],
-                    backgroundColor: 'rgba(159, 209, 242, 0.8)',
-                    borderColor: 'rgba(159, 209, 242, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                },
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Users by Subscription Plan'
-                    }
-                }
-            }
-        });
-    </script>
+    <script src="js/dashboard.js"></script>
 
 </body>
 

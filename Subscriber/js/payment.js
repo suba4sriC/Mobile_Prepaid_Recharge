@@ -94,15 +94,12 @@ function openConfirmation(method) {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-    // Parse URL parameters.
     const params = new URLSearchParams(window.location.search);
     const plan = params.get("plan");
     const price = params.get("price");
     const duration = params.get("duration");
 
     if (plan && price && duration) {
-      // Update the plan details in all modals.
-      // UPI Modal
       document.getElementById("upiPlanName").textContent = plan;
       document.getElementById("upiPlanPrice").textContent = price;
       document.getElementById("upiPlanDuration").textContent = duration;
