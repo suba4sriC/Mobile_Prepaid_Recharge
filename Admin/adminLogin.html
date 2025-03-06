@@ -7,6 +7,7 @@
     <link rel="icon" type="image/png" href="images/logo.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -19,9 +20,12 @@
             background-size: cover;
             margin: 0;
         }
+        
         .container {
             display: flex;
+            flex-direction: row;
             width: 60%;
+            max-width: 900px;
             height: 70vh;
             background: white;
             border-radius: 10px;
@@ -29,12 +33,13 @@
             overflow: hidden;
             --bs-gutter-x: 0rem;
         }
+
         .left-side {
             flex: 1;
-            position: relative;
             background: url('images/Screenshot (19).png') no-repeat center center;
             background-size: cover;
         }
+
         .right-side {
             flex: 1;
             padding: 50px;
@@ -43,6 +48,7 @@
             justify-content: center;
             flex-direction: column;
         }
+
         .btn-login {
             background-color: #8AADB8;
             color: white;
@@ -51,9 +57,11 @@
             padding: 10px;
             transition: 0.3s;
         }
+
         .btn-login:hover {
-            background-color: #8AADB8;
+            background-color: #7a98a5;
         }
+
         .form-control {
             border: none;
             border-bottom: 2px solid #7f6c92;
@@ -62,17 +70,62 @@
             padding-right: 10px;
             width: 100%;
         }
+
         .form-control:focus {
             box-shadow: none;
             border-color: #6a5a7c;
         }
+
         .invalid-feedback {
             color: #dc3545;
         }
-        .button-container{
+
+        .button-container {
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                width: 90%;
+                height: auto;
+            }
+
+            .left-side {
+                width: 100%;
+                height: 200px;
+            }
+
+            .right-side {
+                padding: 30px;
+            }
+
+            .form-label {
+                font-size: 16px;
+            }
+
+            .btn-login {
+                font-size: 16px;
+                padding: 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .right-side {
+                padding: 20px;
+            }
+
+            .form-label {
+                font-size: 14px;
+            }
+
+            .btn-login {
+                font-size: 14px;
+                padding: 6px;
+            }
         }
     </style>
 </head>
@@ -81,11 +134,10 @@
         <div class="left-side"></div>
         <div class="right-side">
             <form id="loginForm" class="w-100" novalidate>
-                <!-- <h1 class="text-center ">Welcome Admin!</h1> -->
-                 <h1 class="text-center mb-4">Admin Login</h1>
+                <h1 class="text-center mb-4">Admin Login</h1>
                 <div class="mb-3">
                     <label for="email" class="form-label mt-3 fs-4">Username</label>
-                    <input type="email" class="form-control " id="email" placeholder="Email address" required>
+                    <input type="email" class="form-control" id="email" placeholder="Email address" required>
                     <div class="invalid-feedback">Please enter a valid email address.</div>
                 </div>
                 <div class="mb-3">
@@ -94,12 +146,12 @@
                     <div class="invalid-feedback">Password must be at least 6 characters long.</div>
                 </div>
                 <div class="button-container">
-                    <button type="submit" class="btn btn-login mt-5 w-50 fs-5 text-dark ">Login</button>
+                    <button type="submit" class="btn btn-login mt-4 w-50 fs-5 text-dark">Login</button>
                 </div>
             </form>
         </div>
     </div>
-    
+
     <script src="js/adminlogin.js"></script>
 </body>
 </html>

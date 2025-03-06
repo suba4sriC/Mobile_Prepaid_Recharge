@@ -7,118 +7,198 @@
     <link rel="icon" type="image/png" href="images/Screenshot__10_-removebg-preview.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-    
+    <link rel="stylesheet" href="styles.css">
+
     <style>
         body {
-            font-family: 'Poppins', sans-serif;
-            padding-top: 80px;
-            background-color: #f8f9fa;
-        }
+    font-family: 'Poppins', sans-serif;
+    padding-top: 80px;
+    background-color: #f8f9fa;
+}
 
-        .navbar {
-            background-color: rgb(159, 209, 242);
-            height: 65px;
-            border-bottom: 1px solid;
-            padding: 10px;
-        }
-        .sidebar {
-            background-color: white;
-            height: 100vh;
-            position: fixed;
-            width: 250px;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-            top:65px;
-            left: 0;
-        }
+.navbar {
+    background-color: rgb(159, 209, 242);
+    height: 65px;
+    border-bottom: 1px solid;
+    padding: 10px;
+}
 
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-        }
+.sidebar {
+    background-color: white;
+    height: 100vh;
+    position: fixed;
+    width: 250px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    top: 65px;
+    left: 0;
+    z-index: 100;
+    transition: all 0.3s;
+}
 
-        .sidebar ul li {
-            padding: 15px 20px;
-            font-size: 18px;
-            border-bottom: 1px solid #ddd;
-        }
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
 
-        .sidebar ul li a {
-            text-decoration: none;
-            color: #333;
-            display: flex;
-            align-items: center;
-        }
+.sidebar ul li {
+    padding: 15px 20px;
+    font-size: 18px;
+    border-bottom: 1px solid #ddd;
+}
 
-        .sidebar ul li a i {
-            margin-right: 10px;
-            font-size: 20px;
-        }
+.sidebar ul li a {
+    text-decoration: none;
+    color: #333;
+    display: flex;
+    align-items: center;
+}
 
-        .sidebar ul li:hover {
-            background-color: rgb(159, 209, 242);
-        }
+.sidebar ul li a i {
+    margin-right: 10px;
+    font-size: 20px;
+}
 
-        .notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            padding: 3px 6px;
-            border-radius: 50%;
-            background: red;
-            color: white;
-            font-size: 12px;
-        }
+.sidebar ul li:hover {
+    background-color: rgb(159, 209, 242);
+}
 
-        .action-buttons {
-            margin: 20px 0;
-        }
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    padding: 3px 6px;
+    border-radius: 50%;
+    background: red;
+    color: white;
+    font-size: 12px;
+}
 
-        .action-button {
-            background-color: rgb(159, 209, 242);
-            border: none;
-            min-width: 120px;
-            transition: all 0.3s;
-        }
+.action-buttons {
+    margin: 20px 0;
+}
 
-        .action-button:hover {
-            background-color: rgb(129, 179, 212);
-            transform: translateY(-2px);
-        }
+.action-button {
+    background-color: rgb(159, 209, 242);
+    border: none;
+    min-width: 120px;
+    transition: all 0.3s;
+}
 
-        .plan-container {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
-            padding: 20px;
-            margin-top: 20px;
-            display: none;
-        }
+.action-button:hover {
+    background-color: rgb(129, 179, 212);
+    transform: translateY(-2px);
+}
 
-        .plan-container.active {
-            display: block;
-        }
+.plan-container {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-top: 20px;
+    display: none;
+}
 
-        .form-label {
-            font-weight: 500;
-            color: #333;
-        }
+.plan-container.active {
+    display: block;
+}
 
-        .form-control:focus {
-            border-color: rgb(159, 209, 242);
-            box-shadow: 0 0 0 0.2rem rgba(159, 209, 242, 0.25);
-        }
+.form-label {
+    font-weight: 500;
+    color: #333;
+}
 
-        .action-footer {
-            border-top: 1px solid #eee;
-            padding-top: 20px;
-            margin-top: 20px;
-        }
+.form-control:focus {
+    border-color: rgb(159, 209, 242);
+    box-shadow: 0 0 0 0.2rem rgba(159, 209, 242, 0.25);
+}
 
-        .main-content{
-            margin-left: 250px;
-            padding: 20px;
-            padding-top: 0;
-        }
+.action-footer {
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+    margin-top: 20px;
+}
+
+.main-content {
+    margin-left: 250px;
+    padding: 20px;
+    padding-top: 0;
+    transition: all 0.3s;
+}
+
+.plan-card {
+    transition: all 0.3s;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.plan-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.plan-card .card-header {
+    background-color: rgb(159, 209, 242);
+    color: #333;
+    font-weight: bold;
+}
+
+.plan-actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Responsive styles */
+@media (max-width: 991.98px) {
+    .sidebar {
+        width: 0;
+        overflow: hidden;
+    }
+    
+    .sidebar.show {
+        width: 250px;
+    }
+    
+    .main-content {
+        margin-left: 0;
+    }
+    
+    .main-content.sidebar-open {
+        margin-left: 250px;
+    }
+    
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+    
+    .action-buttons {
+        flex-wrap: wrap;
+    }
+    
+    .action-button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .navbar {
+        height: auto;
+    }
+    
+    .form-control {
+        font-size: 0.9rem;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+    
+    .action-button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
     </style>
 </head>
 <body>
@@ -129,38 +209,32 @@
                 <img src="images/Screenshot__10_-removebg-preview.png" alt="Swift Top Logo" height="30">
                 <span class="ps-2 fs-4">Swift Top</span>
             </a>
-            <form class="d-flex mx-auto w-50">
-                <div class="input-group w-100">
-                    <span class="input-group-text bg-light border-0">
-                        <i class="bi bi-search"></i>
-                    </span>
-                    <input class="form-control border-0" type="search" placeholder="Search ..." aria-label="Search">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <div class="position-relative me-4 ms-auto">
+                    <i class="bi bi-bell fs-4"></i>
+                    <span class="notification-badge">3</span>
                 </div>
-            </form>
-            <div class="position-relative me-4">
-                <i class="bi bi-bell fs-4"></i>
-                <span class="notification-badge">3</span>
             </div>
         </div>
     </nav>
 
-
     <div class="container-fluid">
-            <div class="sidebar">
-                <ul class="list-group">
-                    <li class="list-group-item"><a href="dashboard.html" class="text-decoration-none text-dark fs-4"><i class="bi bi-house-door"></i> Dashboard</a></li>
-                    <li class="list-group-item pt-4"><a href="subscriberManagement.html" class="text-decoration-none text-dark fs-4"><i class="bi bi-people"></i> Subscribers</a></li>
-                    <li class="list-group-item pt-4"><a href="planManagement.html" class="text-decoration-none text-dark fs-4"><i class="bi bi-card-heading"></i> Plans</a></li>
-                    <li class="list-group-item pt-4"><a href="supportManagement.html" class="text-decoration-none text-dark fs-4"><i class="bi bi-chat-dots"></i> Support</a></li>
-                    <li class="list-group-item pt-4"><a href="adminLogin.html" class="text-decoration-none text-dark fs-4"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
-                </ul>
-            </div>
+        <div class="sidebar" id="sidebar">
+            <ul class="list-group">
+                <li class="list-group-item"><a href="dashboard.html" class="text-decoration-none text-dark fs-5"><i class="bi bi-house-door"></i> Dashboard</a></li>
+                <li class="list-group-item"><a href="subscriberManagement.html" class="text-decoration-none text-dark fs-5"><i class="bi bi-people"></i> Subscribers</a></li>
+                <li class="list-group-item"><a href="planManagement.html" class="text-decoration-none text-dark fs-5"><i class="bi bi-card-heading"></i> Plans</a></li>
+                <li class="list-group-item"><a href="supportManagement.html" class="text-decoration-none text-dark fs-5"><i class="bi bi-chat-dots"></i> Support</a></li>
+                <li class="list-group-item"><a href="adminLogin.html" class="text-decoration-none text-dark fs-5"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
+            </ul>
         </div>
-
 
         <div class="main-content">
             <!-- Action Buttons -->
-            <div class="action-buttons d-flex gap-3">
+            <div class="action-buttons d-flex flex-wrap gap-3">
                 <button class="btn action-button" onclick="showContainer('add')">
                     <i class="bi bi-plus-circle"></i> Add
                 </button>
@@ -175,31 +249,31 @@
             <!-- Add Plan Container -->
             <div id="addContainer" class="plan-container">
                 <h3 class="mb-4">Add New Plan</h3>
-                <form>
+                <form id="addPlanForm">
                     <div class="row">
                         <!-- Left Side -->
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Select Category</label>
-                                <select class="form-select">
-                                    <option selected disabled>Choose category...</option>
-                                    <option>Basic</option>
-                                    <option>Standard</option>
-                                    <option>Premium</option>
-                                    <option>Enterprise</option>
+                                <select class="form-select" name="category" required>
+                                    <option value="" selected disabled>Choose category...</option>
+                                    <option value="Basic">Basic</option>
+                                    <option value="Standard">Standard</option>
+                                    <option value="Premium">Premium</option>
+                                    <option value="Enterprise">Enterprise</option>
                                 </select>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Plan Name</label>
-                                <input type="text" class="form-control" placeholder="Enter plan name">
+                                <input type="text" class="form-control" name="planName" placeholder="Enter plan name" required>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Data</label>
-                                <input type="text" class="form-control" placeholder="Enter plan data">
+                                <input type="text" class="form-control" name="data" placeholder="Enter plan data" required>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Number of SMS</label>
-                                <input type="text" class="form-control" placeholder="Enter plan SMS count">
+                                <input type="text" class="form-control" name="sms" placeholder="Enter plan SMS count" required>
                             </div>
                         </div>
             
@@ -207,15 +281,15 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Talktime</label>
-                                <input type="text" class="form-control" placeholder="Enter plan talktime">
+                                <input type="text" class="form-control" name="talktime" placeholder="Enter plan talktime" required>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Price</label>
-                                <input type="number" class="form-control" placeholder="Enter price">
+                                <input type="number" class="form-control" name="price" placeholder="Enter price" required>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Duration (in months)</label>
-                                <input type="number" class="form-control" placeholder="Enter duration">
+                                <input type="number" class="form-control" name="duration" placeholder="Enter duration" required>
                             </div>
                             <div class="action-footer text-center">
                                 <button type="button" class="btn btn-secondary me-2" onclick="hideContainers()">Cancel</button>
@@ -226,61 +300,57 @@
                 </form>
             </div>
             
-    
             <!-- Update Plan Container -->
             <div id="updateContainer" class="plan-container">
                 <h3 class="mb-4">Update Plan</h3>
-                <form>
+                <form id="updatePlanForm">
                     <div class="row">
                         <!-- Left Side -->
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Select Plan to Update</label>
-                                <select class="form-select mb-4">
-                                    <option selected disabled>Choose plan to update...</option>
-                                    <option>Basic Monthly</option>
-                                    <option>Standard Quarterly</option>
-                                    <option>Premium Annual</option>
+                                <select class="form-select mb-4" id="planToUpdate" name="planId" required>
+                                    <option value="" selected disabled>Choose plan to update...</option>
+                                    <!-- Options will be populated by JavaScript -->
                                 </select>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Select Category</label>
-                                <select class="form-select">
-                                    <option selected disabled>Choose category...</option>
-                                    <option>Basic</option>
-                                    <option>Standard</option>
-                                    <option>Premium</option>
-                                    <option>Enterprise</option>
+                                <select class="form-select" name="category" required>
+                                    <option value="" selected disabled>Choose category...</option>
+                                    <option value="Basic">Basic</option>
+                                    <option value="Standard">Standard</option>
+                                    <option value="Premium">Premium</option>
+                                    <option value="Enterprise">Enterprise</option>
                                 </select>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Plan Name</label>
-                                <input type="text" class="form-control" placeholder="Enter plan name">
+                                <input type="text" class="form-control" name="planName" placeholder="Enter plan name" required>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Data</label>
-                                <input type="text" class="form-control" placeholder="Enter plan data">
+                                <input type="text" class="form-control" name="data" placeholder="Enter plan data" required>
                             </div>
-                           
                         </div>
             
                         <!-- Right Side -->
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Number of SMS</label>
-                                <input type="text" class="form-control" placeholder="Enter plan SMS count">
+                                <input type="text" class="form-control" name="sms" placeholder="Enter plan SMS count" required>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Talktime</label>
-                                <input type="text" class="form-control" placeholder="Enter plan talktime">
+                                <input type="text" class="form-control" name="talktime" placeholder="Enter plan talktime" required>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Price</label>
-                                <input type="number" class="form-control" placeholder="Enter price">
+                                <input type="number" class="form-control" name="price" placeholder="Enter price" required>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Duration (in months)</label>
-                                <input type="number" class="form-control" placeholder="Enter duration">
+                                <input type="number" class="form-control" name="duration" placeholder="Enter duration" required>
                             </div>
                             <div class="action-footer text-center">
                                 <button type="button" class="btn btn-secondary me-2" onclick="hideContainers()">Cancel</button>
@@ -291,18 +361,15 @@
                 </form>
             </div>
             
-    
             <!-- Delete Plan Container -->
             <div id="deleteContainer" class="plan-container">
                 <h3 class="mb-4">Delete Plan</h3>
-                <form>
+                <form id="deletePlanForm">
                     <div class="mb-3">
                         <label class="form-label">Select Plan to Delete</label>
-                        <select class="form-select">
-                            <option selected disabled>Choose plan to delete...</option>
-                            <option>Basic Monthly</option>
-                            <option>Standard Quarterly</option>
-                            <option>Premium Annual</option>
+                        <select class="form-select" id="planToDelete" name="planId" required>
+                            <option value="" selected disabled>Choose plan to delete...</option>
+                            <!-- Options will be populated by JavaScript -->
                         </select>
                     </div>
                     <div class="action-footer text-center">
@@ -311,12 +378,50 @@
                     </div>
                 </form>
             </div>
+
+            <!-- Plans List Section -->
+            <div class="mt-5">
+                <h3 class="mb-4">Available Plans</h3>
+                <div class="row" id="plansList">
+                    <!-- Plans will be populated by JavaScript -->
+                </div>
+            </div>
         </div>
-    
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="planToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto" id="toastTitle">Plan Management</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body" id="toastMessage">
+                Operation completed successfully.
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmationModalLabel">Confirm Action</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="confirmationMessage">
+                    Are you sure you want to proceed with this action?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="confirmButton">Confirm</button>
+                </div>
+            </div>
+        </div>
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/planManagement.js">
-    </script>
+    <script src="js/planManagement.js"></script>
 </body>
 </html>

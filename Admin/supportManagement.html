@@ -16,6 +16,7 @@
             font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
+            padding-top: 65px; /* Account for fixed navbar */
         }
 
         .navbar {
@@ -23,6 +24,7 @@
             height: 65px;
             border-bottom: 1px solid;
             padding: 10px;
+            z-index: 1030;
         }
 
         .sidebar {
@@ -30,8 +32,9 @@
             height: 100vh;
             position: fixed;
             width: 250px;
-            padding-top: 15px;
             box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            z-index: 1020;
+            transition: all 0.3s ease;
         }
 
         .sidebar ul {
@@ -93,6 +96,60 @@
             background-color: rgb(139, 189, 222);
         }
 
+        .main-content {
+            transition: margin-left 0.3s ease;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 991.98px) {
+            .sidebar {
+                width: 0;
+                overflow: hidden;
+            }
+            
+            .sidebar.show {
+                width: 250px;
+            }
+            
+            .main-content {
+                margin-left: 0 !important;
+                width: 100%;
+            }
+            
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .main-content {
+                margin-left: 250px;
+            }
+            
+            .sidebar-toggle {
+                display: none;
+            }
+        }
+
+        @media (max-width: 767.98px) {
+            .navbar {
+                height: auto;
+            }
+            
+            .section-title {
+                font-size: 20px;
+            }
+            
+            .button-container {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .button-container .btn {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 
@@ -101,43 +158,41 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container-fluid">
-            <a class="navbar-brand d-flex align-items-center ps-3" href="dashboard.html">
+            <button class="btn sidebar-toggle me-2 d-lg-none" type="button">
+                <i class="bi bi-list fs-4"></i>
+            </button>
+            <a class="navbar-brand d-flex align-items-center ps-lg-3" href="dashboard.html">
                 <img src="images/Screenshot__10_-removebg-preview.png" alt="Swift Top Logo" height="30">
-                <span class="ps-2 fs-4">Swift Top</span>
+                <span class="ps-2 fs-4 d-none d-sm-inline">Swift Top</span>
             </a>
-            <form class="d-flex mx-auto w-50">
-                <div class="input-group w-100">
-                    <span class="input-group-text bg-light border-0">
-                        <i class="bi bi-search"></i>
-                    </span>
-                    <input class="form-control border-0" type="search" placeholder="Search ..." aria-label="Search">
+            <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button> -->
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <div class="position-relative me-4 ms-auto">
+                    <i class="bi bi-bell fs-4"></i>
+                    <span class="notification-badge">3</span>
                 </div>
-            </form>
-            <div class="position-relative me-4">
-                <i class="bi bi-bell fs-4"></i>
-                <span class="notification-badge">3</span>
             </div>
         </div>
     </nav>
 
     <!-- Main Container -->
-    <div class="container-fluid mt-5">
-        <div class="row">
-            <!-- Sidebar -->
-            <div class="col-md-2 col-12 p-0">
-                <div class="sidebar">
-                    <ul class="list-group ">
-                        <li class="list-group-item"><a href="dashboard.html" class=" text-dark fs-4"><i class="bi bi-house-door"></i> Dashboard</a></li>
-                        <li class="list-group-item pt-4"><a href="subscriberManagement.html" class="text-decoration-none text-dark fs-4"><i class="bi bi-people"></i> Subscribers</a></li>
-                        <li class="list-group-item pt-4"><a href="planManagement.html" class="text-decoration-none text-dark fs-4"><i class="bi bi-card-heading"></i> Plans</a></li>
-                        <li class="list-group-item pt-4"><a href="support.html" class="text-decoration-none text-dark fs-4"><i class="bi bi-chat-dots"></i> Support</a></li>
-                        <li class="list-group-item pt-4"><a href="adminLogin.html" class="text-decoration-none text-dark fs-4"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
-                    </ul>
-                </div>
-            </div>
+    <div class="container-fluid p-0">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <ul class="list-group">
+                <li class="list-group-item"><a href="dashboard.html" class="text-dark fs-5"><i class="bi bi-house-door"></i> Dashboard</a></li>
+                <li class="list-group-item"><a href="subscriberManagement.html" class="text-decoration-none text-dark fs-5"><i class="bi bi-people"></i> Subscribers</a></li>
+                <li class="list-group-item"><a href="planManagement.html" class="text-decoration-none text-dark fs-5"><i class="bi bi-card-heading"></i> Plans</a></li>
+                <li class="list-group-item"><a href="support.html" class="text-decoration-none text-dark fs-5"><i class="bi bi-chat-dots"></i> Support</a></li>
+                <li class="list-group-item"><a href="adminLogin.html" class="text-decoration-none text-dark fs-5"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
+            </ul>
+        </div>
 
-            <!-- Support Section -->
-            <div class="col-md-10 p-4">
+        <!-- Support Section -->
+        <div class="main-content">
+            <div class="p-3 p-md-4">
                 <!-- Pending Queries -->
                 <div class="mb-4">
                     <div class="section-title">Pending Queries</div>
@@ -150,35 +205,57 @@
                         <div id="error-space" class="text-danger mt-2"></div>
                         <div class="button-container text-center">
                             <button class="btn btn-notify text-dark px-4" onclick="sendEmail('johndoe@example.com')">Notify</button>
-                            <button class="btn btn-secondary ms-2">Cancel</button>
+                            <button class="btn btn-secondary ms-2 ms-md-2 mt-2 mt-md-0">Cancel</button>
                         </div>
                     </div>
                 </div>
-
-                
             </div>
         </div>
     </div>
 
-    <!-- JavaScript for Sending Email -->
+    <!-- Toast Message -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1050">
+        <div id="toastNotification" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">Notification has been sent successfully!</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
     <script>
+        // Toggle sidebar on mobile
+        document.querySelector('.sidebar-toggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('show');
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.querySelector('.sidebar-toggle');
+            
+            if (window.innerWidth < 992 && 
+                !sidebar.contains(event.target) && 
+                !sidebarToggle.contains(event.target) &&
+                sidebar.classList.contains('show')) {
+                sidebar.classList.remove('show');
+            }
+        });
+
         function sendEmail(email) {
             let responseText = document.getElementById("response-text").value.trim();
-        let errorSpace = document.getElementById("error-space");
+            let errorSpace = document.getElementById("error-space");
 
-        if (responseText === "") {
-            errorSpace.innerText = "Please enter a response before notifying.";
-            return;
-        } 
-        else {
-            errorSpace.innerText = ""; 
-        }
+            if (responseText === "") {
+                errorSpace.innerText = "Please enter a response before notifying.";
+                return;
+            }
+            errorSpace.innerText = "";
 
-        let mailtoLink = `mailto:${email}?subject=Query Resolved&body=${encodeURIComponent(responseText)}`;
-        window.location.href = mailtoLink;
+            let toastEl = document.getElementById("toastNotification");
+            let toast = new bootstrap.Toast(toastEl);
+            toast.show();
         }
     </script>
-
 </body>
-
 </html>
