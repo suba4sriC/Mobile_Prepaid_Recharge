@@ -21,8 +21,7 @@
         }
         .plan-card {
             background-color: #ffffff;
-            padding: 20px;
-            margin: 15px 0;
+            padding: 15px;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease-in-out;
@@ -52,11 +51,11 @@
             flex-direction: column;
             align-items: center;
         }
-        .plan-cards-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: space-between;
+        .plans-list {
+            display: grid;       /* Grid layout for precise control */
+            grid-template-columns: repeat(3, 1fr);  /* Exactly 3 cards per row */
+            gap: 20px;           /* Added gap for even spacing */
+            width: 100%;
         }
         .plan-cards-row .col-md-3 {
             flex: 1 0 23%; 
@@ -166,6 +165,43 @@
             margin: 0 auto;
         }
 
+        @media (max-width: 991px) {
+            .plans-list {
+                grid-template-columns: repeat(2, 1fr); /* 2 cards per row */
+            }
+            .search-container {
+                width: 100%; 
+            }
+        }
+
+        @media (max-width: 576px) {
+            .plans-list {
+                grid-template-columns: 1fr; /* 1 card per row */
+            }
+            
+            .navbar-nav .nav-link {
+                font-size: 1rem;
+                padding: 0.3rem 0.8rem;
+            }
+
+            .search-container {
+                width: 100%; /* Full width search bar */
+            }
+
+            .footer .social-icons {
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            .scroll-to-top {
+                font-size: 1.5rem;
+                bottom: 20px;
+                right: 15px;
+            }
+        }
+
+
     </style>
 </head>
 <body>
@@ -214,512 +250,11 @@
     <div class="container mt-3 pb-5 pt-2">
         <div class="card text-center">
             <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link active fs-4 " id="popular-tab" data-bs-toggle="tab" href="#popular">Popular</a>
-                    </li>
-                    <li class="nav-item fs-4">
-                        <a class="nav-link" id="unlimited-tab" data-bs-toggle="tab" href="#unlimited">Unlimited</a>
-                    </li>
-                    <li class="nav-item fs-4">
-                        <a class="nav-link" id="addon-tab" data-bs-toggle="tab" href="#addon">Add On</a>
-                    </li>
-                    <li class="nav-item fs-4">
-                        <a class="nav-link" id="topup-tab" data-bs-toggle="tab" href="#topup">Top Up</a>
-                    </li>
-                    <li class="nav-item fs-4">
-                        <a class="nav-link" id="roming-tab" data-bs-toggle="tab" href="#roming">International Roming</a>
-                    </li>
-                    <li class="nav-item fs-4">
-                        <a class="nav-link" id="ott-tab" data-bs-toggle="tab" href="#ott">OTT Subscription Plans</a>
-                    </li>
-                    <li class="nav-item fs-4">
-                        <a class="nav-link" id="family-tab" data-bs-toggle="tab" href="#family"> Family Plans</a>
-                    </li>
-                </ul>
+                <ul class="nav nav-tabs" id="nav-tabs" role="tablist"></ul>   
             </div>
             <div class="card-body p-4">
-                <div class="tab-content">
-                    <!-- Popular Plans -->
-                    <div class="tab-pane fade show active" id="popular">
-                        <div class="plan-cards-row">
-                            <!-- Repeat this block for each plan (6 cards) -->
-                            <div class="col-md-3">
-                                <div class="plan-card border ">
-                                    <h4>Popular Plan 1</h4>
-                                    <p class="price">₹299</p>
-                                    <p><strong>Validity:</strong> 28 Days</p>
-                                    <p><strong>Data:</strong> 1GB/day</p>
-                                    <p><strong>Talktime:</strong> Unlimited</p>
-                                    <p><strong>SMS:</strong> 100 SMS</p>
-                                    <button class="btn-recharge btn btn-primary"
-                                    onclick="goToPaymentPage(this)"
-                                    data-plan="Popular Plan 1"
-                                    data-price="₹299"
-                                    data-duration="28 Days">
-                                    Recharge Now
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="plan-card border">
-                                    <h4>Popular Plan 2</h4>
-                                    <p class="price">₹399</p>
-                                    <p><strong>Validity:</strong> 30 Days</p>
-                                    <p><strong>Data:</strong> 2GB/day</p>
-                                    <p><strong>Talktime:</strong> Unlimited</p>
-                                    <p><strong>SMS:</strong> 150 SMS</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="plan-card border">
-                                    <h4>Popular Plan 3</h4>
-                                    <p class="price">₹299</p>
-                                    <p><strong>Validity:</strong> 28 Days</p>
-                                    <p><strong>Data:</strong> 1GB/day</p>
-                                    <p><strong>Talktime:</strong> Unlimited</p>
-                                    <p><strong>SMS:</strong> 100 SMS</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-                            <div class="col-md-3 ">
-                                <div class="plan-card border">
-                                    <h4>Popular Plan 4</h4>
-                                    <p class="price">₹299</p>
-                                    <p><strong>Validity:</strong> 28 Days</p>
-                                    <p><strong>Data:</strong> 1GB/day</p>
-                                    <p><strong>Talktime:</strong> Unlimited</p>
-                                    <p><strong>SMS:</strong> 100 SMS</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-                            <div class="col-md-3 " style="max-width: 24%;">
-                                <div class="plan-card border">
-                                    <h4>Popular Plan 5</h4>
-                                    <p class="price">₹299</p>
-                                    <p><strong>Validity:</strong> 28 Days</p>
-                                    <p><strong>Data:</strong> 1GB/day</p>
-                                    <p><strong>Talktime:</strong> Unlimited</p>
-                                    <p><strong>SMS:</strong> 100 SMS</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </div>
-
-
-
-                    <!-- for unlimited-->
-                    <div class="tab-pane fade" id="unlimited">
-                        <div class="plan-cards-row">
-                            <div class="col-md-3">
-                                <div class="plan-card border ">
-                                    <h4>Unlimited Plan 1</h4>
-                                    <p class="price">₹299</p>
-                                    <p><strong>Validity:</strong> 28 Days</p>
-                                    <p><strong>Data:</strong> 1GB/day</p>
-                                    <p><strong>Talktime:</strong> Unlimited</p>
-                                    <p><strong>SMS:</strong> 100 SMS</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="plan-card border">
-                                    <h4>Unlimited Plan 2</h4>
-                                    <p class="price">₹399</p>
-                                    <p><strong>Validity:</strong> 30 Days</p>
-                                    <p><strong>Data:</strong> 2GB/day</p>
-                                    <p><strong>Talktime:</strong> Unlimited</p>
-                                    <p><strong>SMS:</strong> 150 SMS</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="plan-card border">
-                                    <h4>Unlimited Plan 3</h4>
-                                    <p class="price">₹299</p>
-                                    <p><strong>Validity:</strong> 28 Days</p>
-                                    <p><strong>Data:</strong> 1GB/day</p>
-                                    <p><strong>Talktime:</strong> Unlimited</p>
-                                    <p><strong>SMS:</strong> 100 SMS</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="plan-card border">
-                                    <h4>Unlimited Plan 4</h4>
-                                    <p class="price">₹299</p>
-                                    <p><strong>Validity:</strong> 28 Days</p>
-                                    <p><strong>Data:</strong> 1GB/day</p>
-                                    <p><strong>Talktime:</strong> Unlimited</p>
-                                    <p><strong>SMS:</strong> 100 SMS</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="plan-card border">
-                                    <h4>Unlimited Plan 5</h4>
-                                    <p class="price">₹299</p>
-                                    <p><strong>Validity:</strong> 28 Days</p>
-                                    <p><strong>Data:</strong> 1GB/day</p>
-                                    <p><strong>Talktime:</strong> Unlimited</p>
-                                    <p><strong>SMS:</strong> 100 SMS</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="plan-card border">
-                                    <h4>Unlimited Plan 6</h4>
-                                    <p class="price">₹299</p>
-                                    <p><strong>Validity:</strong> 28 Days</p>
-                                    <p><strong>Data:</strong> 1GB/day</p>
-                                    <p><strong>Talktime:</strong> Unlimited</p>
-                                    <p><strong>SMS:</strong> 100 SMS</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="plan-card border">
-                                    <h4>Unlimited Plan 7</h4>
-                                    <p class="price">₹299</p>
-                                    <p><strong>Validity:</strong> 28 Days</p>
-                                    <p><strong>Data:</strong> 1GB/day</p>
-                                    <p><strong>Talktime:</strong> Unlimited</p>
-                                    <p><strong>SMS:</strong> 100 SMS</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="plan-card border">
-                                    <h4>Unlimited Plan 8</h4>
-                                    <p class="price">₹299</p>
-                                    <p><strong>Validity:</strong> 28 Days</p>
-                                    <p><strong>Data:</strong> 1GB/day</p>
-                                    <p><strong>Talktime:</strong> Unlimited</p>
-                                    <p><strong>SMS:</strong> 100 SMS</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-                           
-                        </div>
-                    </div>
-
-
-
-
-                    <div class="tab-pane fade" id="addon">
-                        <div class="plan-cards-row">
-                            <div class="col-md-3">
-                                <div class="plan-card border ">
-                                    <h4>AddOn Plan 1</h4>
-                                    <p class="price">₹299</p>
-                                    <p><strong>Validity:</strong> 28 Days</p>
-                                    <p><strong>Data:</strong> 1GB/day</p>
-                                    <p><strong>Talktime:</strong> Unlimited</p>
-                                    <p><strong>SMS:</strong> 100 SMS</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="plan-card border">
-                                    <h4>AddOn Plan 2</h4>
-                                    <p class="price">₹399</p>
-                                    <p><strong>Validity:</strong> 30 Days</p>
-                                    <p><strong>Data:</strong> 2GB/day</p>
-                                    <p><strong>Talktime:</strong> Unlimited</p>
-                                    <p><strong>SMS:</strong> 150 SMS</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="plan-card border">
-                                    <h4>AddOn Plan 3</h4>
-                                    <p class="price">₹299</p>
-                                    <p><strong>Validity:</strong> 28 Days</p>
-                                    <p><strong>Data:</strong> 1GB/day</p>
-                                    <p><strong>Talktime:</strong> Unlimited</p>
-                                    <p><strong>SMS:</strong> 100 SMS</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="plan-card border">
-                                    <h4>AddOn Plan 4</h4>
-                                    <p class="price">₹299</p>
-                                    <p><strong>Validity:</strong> 28 Days</p>
-                                    <p><strong>Data:</strong> 1GB/day</p>
-                                    <p><strong>Talktime:</strong> Unlimited</p>
-                                    <p><strong>SMS:</strong> 100 SMS</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="plan-card border">
-                                    <h4>AddOn Plan 5</h4>
-                                    <p class="price">₹299</p>
-                                    <p><strong>Validity:</strong> 28 Days</p>
-                                    <p><strong>Data:</strong> 1GB/day</p>
-                                    <p><strong>Talktime:</strong> Unlimited</p>
-                                    <p><strong>SMS:</strong> 100 SMS</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="plan-card border">
-                                    <h4>AddOn Plan 6</h4>
-                                    <p class="price">₹299</p>
-                                    <p><strong>Validity:</strong> 28 Days</p>
-                                    <p><strong>Data:</strong> 1GB/day</p>
-                                    <p><strong>Talktime:</strong> Unlimited</p>
-                                    <p><strong>SMS:</strong> 100 SMS</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="plan-card border">
-                                    <h4>AddOn Plan 7</h4>
-                                    <p class="price">₹299</p>
-                                    <p><strong>Validity:</strong> 28 Days</p>
-                                    <p><strong>Data:</strong> 1GB/day</p>
-                                    <p><strong>Talktime:</strong> Unlimited</p>
-                                    <p><strong>SMS:</strong> 100 SMS</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="plan-card border">
-                                    <h4>AddOn Plan 8</h4>
-                                    <p class="price">₹299</p>
-                                    <p><strong>Validity:</strong> 28 Days</p>
-                                    <p><strong>Data:</strong> 1GB/day</p>
-                                    <p><strong>Talktime:</strong> Unlimited</p>
-                                    <p><strong>SMS:</strong> 100 SMS</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                    <div class="tab-pane fade" id="topup">
-                        <div class="plan-cards-row">
-                            <div class="col-md-3 ">
-                                <div class="plan-card border w-100">
-                                    <h4>Data Top Up Plan 1</h4>
-                                    <p class="price">₹299</p>
-                                    <p><strong>Validity:</strong> 28 Days</p>
-                                    <p><strong>Data:</strong> 1GB/day</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-                            <div class="col-md-3 ">
-                                <div class="plan-card border">
-                                    <h4>Data Topup Plan 2</h4>
-                                    <p class="price">₹399</p>
-                                    <p><strong>Validity:</strong> 30 Days</p>
-                                    <p><strong>Data:</strong> 2GB/day</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-                            <div class="col-md-3 ">
-                                <div class="plan-card border">
-                                    <h4>Data Top Up Plan 3</h4>
-                                    <p class="price">₹299</p>
-                                    <p><strong>Validity:</strong> 28 Days</p>
-                                    <p><strong>Data:</strong> 1GB/day</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-                            <div class="col-md-3 ">
-                                <div class="plan-card border">
-                                    <h4>Data Top Up Plan 4</h4>
-                                    <p class="price">₹299</p>
-                                    <p><strong>Validity:</strong> 28 Days</p>
-                                    <p><strong>Data:</strong> 1GB/day</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3 " style="max-width: 24%;">
-                                <div class="plan-card border">
-                                    <h4>Data Top Up Plan 5</h4>
-                                    <p class="price">₹299</p>
-                                    <p><strong>Validity:</strong> 28 Days</p>
-                                    <p><strong>Data:</strong> 1GB/day</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-
-                           
-                           
-                        </div>
-                    </div>
-
-
-
-
-                    <div class="tab-pane fade" id="roming">
-                        <div class="plan-cards-row">
-                            <div class="col-md-3 ">
-                                <div class="plan-card border w-100">
-                                    <h4>Data Top Up Plan 1</h4>
-                                    <p class="price">₹299</p>
-                                    <p><strong>Validity:</strong> 28 Days</p>
-                                    <p><strong>Data:</strong> 1GB/day</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-                            <div class="col-md-3 ">
-                                <div class="plan-card border">
-                                    <h4>Data Topup Plan 2</h4>
-                                    <p class="price">₹399</p>
-                                    <p><strong>Validity:</strong> 30 Days</p>
-                                    <p><strong>Data:</strong> 2GB/day</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-                            <div class="col-md-3 ">
-                                <div class="plan-card border">
-                                    <h4>Data Top Up Plan 3</h4>
-                                    <p class="price">₹299</p>
-                                    <p><strong>Validity:</strong> 28 Days</p>
-                                    <p><strong>Data:</strong> 1GB/day</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-                            <div class="col-md-3 ">
-                                <div class="plan-card border">
-                                    <h4>Data Top Up Plan 4</h4>
-                                    <p class="price">₹299</p>
-                                    <p><strong>Validity:</strong> 28 Days</p>
-                                    <p><strong>Data:</strong> 1GB/day</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3 " style="max-width: 24%;">
-                                <div class="plan-card border">
-                                    <h4>Data Top Up Plan 5</h4>
-                                    <p class="price">₹299</p>
-                                    <p><strong>Validity:</strong> 28 Days</p>
-                                    <p><strong>Data:</strong> 1GB/day</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                    <div class="tab-pane fade" id="ott">
-                        <div class="plan-cards-row">
-                            <div class="col-md-3 ">
-                                <div class="plan-card border w-100">
-                                    <h4>Data Top Up Plan 1</h4>
-                                    <p class="price">₹299</p>
-                                    <p><strong>Validity:</strong> 28 Days</p>
-                                    <p><strong>Data:</strong> 1GB/day</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-                            <div class="col-md-3 ">
-                                <div class="plan-card border">
-                                    <h4>Data Topup Plan 2</h4>
-                                    <p class="price">₹399</p>
-                                    <p><strong>Validity:</strong> 30 Days</p>
-                                    <p><strong>Data:</strong> 2GB/day</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-                            <div class="col-md-3 ">
-                                <div class="plan-card border">
-                                    <h4>Data Top Up Plan 3</h4>
-                                    <p class="price">₹299</p>
-                                    <p><strong>Validity:</strong> 28 Days</p>
-                                    <p><strong>Data:</strong> 1GB/day</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-                            <div class="col-md-3 ">
-                                <div class="plan-card border">
-                                    <h4>Data Top Up Plan 4</h4>
-                                    <p class="price">₹299</p>
-                                    <p><strong>Validity:</strong> 28 Days</p>
-                                    <p><strong>Data:</strong> 1GB/day</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3 " style="max-width: 24%;">
-                                <div class="plan-card border">
-                                    <h4>Data Top Up Plan 5</h4>
-                                    <p class="price">₹299</p>
-                                    <p><strong>Validity:</strong> 28 Days</p>
-                                    <p><strong>Data:</strong> 1GB/day</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                    <div class="tab-pane fade" id="family">
-                        <div class="plan-cards-row">
-                            <div class="col-md-3 ">
-                                <div class="plan-card border w-100">
-                                    <h4>Data Top Up Plan 1</h4>
-                                    <p class="price">₹299</p>
-                                    <p><strong>Validity:</strong> 28 Days</p>
-                                    <p><strong>Data:</strong> 1GB/day</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-                            <div class="col-md-3 ">
-                                <div class="plan-card border">
-                                    <h4>Data Topup Plan 2</h4>
-                                    <p class="price">₹399</p>
-                                    <p><strong>Validity:</strong> 30 Days</p>
-                                    <p><strong>Data:</strong> 2GB/day</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-                            <div class="col-md-3 ">
-                                <div class="plan-card border">
-                                    <h4>Data Top Up Plan 3</h4>
-                                    <p class="price">₹299</p>
-                                    <p><strong>Validity:</strong> 28 Days</p>
-                                    <p><strong>Data:</strong> 1GB/day</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-                            <div class="col-md-3 ">
-                                <div class="plan-card border">
-                                    <h4>Data Top Up Plan 4</h4>
-                                    <p class="price">₹299</p>
-                                    <p><strong>Validity:</strong> 28 Days</p>
-                                    <p><strong>Data:</strong> 1GB/day</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3 " style="max-width: 24%;">
-                                <div class="plan-card border">
-                                    <h4>Data Top Up Plan 5</h4>
-                                    <p class="price">₹299</p>
-                                    <p><strong>Validity:</strong> 28 Days</p>
-                                    <p><strong>Data:</strong> 1GB/day</p>
-                                    <button class="btn-recharge" onclick="goToPaymentPage()">Recharge Now</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
+                <div class="tab-content" id="tab-content"></div>
+            </div>      
         </div>
     </div>
 
@@ -738,22 +273,7 @@
         </div>
     </footer>
 
-    <script>
-        function goToPaymentPage(buttonElem) {
-        const plan = buttonElem.getAttribute("data-plan");
-        const price = buttonElem.getAttribute("data-price");
-        const duration = buttonElem.getAttribute("data-duration");
-
-        const queryParams = new URLSearchParams({
-            plan: plan,
-            price: price,
-            duration: duration
-        });
-
-        window.location.href = "payment.html?" + queryParams.toString();
-}
-
-    </script>
+    <script src="js/plans.js"></script>
 
 </body>
 </html>

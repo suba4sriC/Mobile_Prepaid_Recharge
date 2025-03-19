@@ -1,19 +1,26 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const userDataString = localStorage.getItem("userData");
-    if (userDataString) {
-        try {
-        const userData = JSON.parse(userDataString);
-        if (userData.mobile) {
-            document.getElementById("phone").value = userData.mobile;
-        }
-        } catch (error) {
-        console.error("Error parsing userData:", error);
-        }
+    const urlParams = new URLSearchParams(window.location.search);
+    const phoneNumber = localStorage.getItem("phoneNumber");
+    const jwtToken = localStorage.getItem("jwtToken");
+    if (phoneNumber) {
+        document.getElementById("phone").value = phoneNumber;
+
     } else {
-        console.warn("No userData found in localStorage");
+        console.warn("❌ Phone number not found in URL parameters.");
     }
 
 });
+document.getElementById("profileLink").addEventListener("click", function(e) {
+    e.preventDefault();  // Prevent default navigation
+    const phoneNumber = document.getElementById("phone").value.trim();
+    if (phoneNumber) {
+        const encodedPhoneNumber = encodeURIComponent(phoneNumber);
+        window.location.href = `profile_sample.html?phoneNumber=${encodedPhoneNumber}`;
+    } else {
+        alert("❌ Please enter a valid phone number before proceeding.");
+    }
+});
+
 
 
 function redirectToPayment() {
@@ -32,7 +39,8 @@ function redirectToPayment() {
     const queryParams = new URLSearchParams({
     plan: planSelection,
     price: price,
-    duration: duration
+    duration: duration,
+    phoneNumber: document.getElementById("phone").value
     });
     window.location.href = "payment.html?" + queryParams.toString();
 }
@@ -101,3 +109,4 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+

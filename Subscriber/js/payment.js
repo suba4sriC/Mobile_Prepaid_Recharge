@@ -1,121 +1,134 @@
-function confirmPayment() {
-    window.location.href = "payment-success.html";
-}
+document.addEventListener("DOMContentLoaded", async function () {
+    const params = new URLSearchParams(window.location.search);
+    const planId = params.get("planId"); 
+    const jwtToken = localStorage.getItem("jwtToken");
 
-function clearErrorMessage(method) {
-    let errorContainer = document.getElementById(method.toLowerCase() + "Error");
-    errorContainer.innerText = "";
-}
-
-
-
-function openConfirmation(method) {
-    let isValid = true;
-    let errorMessage = "";
-
-    if (method === "UPI") {
-        let upiId = document.getElementById("upiId").value.trim();
-        let upiName = document.getElementById("upiName").value.trim();
-        let amount = document.getElementById("amount").value.trim();
-
-        document.getElementById("upiId").addEventListener("input", function () { clearErrorMessage(method); });
-        document.getElementById("upiName").addEventListener("input", function () { clearErrorMessage(method); });
-        document.getElementById("amount").addEventListener("input", function () { clearErrorMessage(method); });
-
-        if (!upiId || !upiName || !amount) {
-            isValid = false;
-            errorMessage = "All fields are required.";
-        }
-    }
-
-    if (method === "Net Banking") {
-        let bank = document.getElementById("bank").value.trim();
-        let netAmount = document.getElementById("netAmount").value.trim();
-
-        document.getElementById("bank").addEventListener("input", function () { clearErrorMessage(method); });
-        document.getElementById("netAmount").addEventListener("input", function () { clearErrorMessage(method); });
-
-        if (!bank || !netAmount) {
-            isValid = false;
-            errorMessage = "All fields are required.";
-        }
-    }
-
-    if (method === "Wallet") {
-        let walletId = document.getElementById("walletId").value.trim();
-        let walletAmount = document.getElementById("walletAmount").value.trim();
-
-        document.getElementById("walletId").addEventListener("input", function () { clearErrorMessage(method); });
-        document.getElementById("walletAmount").addEventListener("input", function () { clearErrorMessage(method); });
-
-        if (!walletId || !walletAmount) {
-            isValid = false;
-            errorMessage = "All fields are required.";
-        }
-    }
-
-    if (method === "Card") {
-        let cardNumber = document.getElementById("cardNumber").value.trim();
-        let cardExpiry = document.getElementById("cardExpiry").value.trim();
-        let cardCVV = document.getElementById("cardCVV").value.trim();
-        let cardAmount = document.getElementById("cardAmount").value.trim();
-
-        document.getElementById("cardNumber").addEventListener("input", function () { clearErrorMessage(method); });
-        document.getElementById("cardExpiry").addEventListener("input", function () { clearErrorMessage(method); });
-        document.getElementById("cardCVV").addEventListener("input", function () { clearErrorMessage(method); });
-        document.getElementById("cardAmount").addEventListener("input", function () { clearErrorMessage(method); });
-
-        if (!cardNumber || !cardExpiry || !cardCVV || !cardAmount) {
-            isValid = false;
-            errorMessage = "All fields are required.";
-        }
-    }
-
-    let errorContainer = document.getElementById(method.toLowerCase() + "Error");
-    if (!isValid) {
-        errorContainer.innerText = errorMessage;
-        errorContainer.style.color = "red";
+    if (!jwtToken) {
+        console.error("JWT Token is missing. User may need to log in.");
+        alert("Session expired. Please log in again.");
         return;
-    } else {
-        errorContainer.innerText = ""; 
     }
 
-    selectedPaymentMethod = method;
-    document.getElementById("paymentMethod").innerText = method;
+    if (planId) {
+        try {
+            const response = await fetch(`http://localhost:8083/auth/api/prepaidplan/${planId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${jwtToken.trim()}`
+                }
+            });
 
-    let openModals = document.querySelectorAll('.modal.show');
-    openModals.forEach(modal => {
-        let modalInstance = bootstrap.Modal.getInstance(modal);
-        modalInstance.hide();
+            if (!response.ok) {
+                throw new Error(`Failed to fetch plan details. Status: ${response.status}`);
+            }
+
+            const planDetails = await response.json();
+            console.log("Plan Details Fetched:", planDetails);
+
+            
+            document.getElementById("planName").textContent = planDetails.planName || 'N/A';
+            document.getElementById("planPrice").textContent = `₹${planDetails.planPrice || 0}`;
+            document.getElementById("planValidity").textContent = planDetails.planValidity || 'N/A';
+            document.getElementById("planData").textContent = planDetails.planData || 'N/A';
+            document.getElementById("planTalktime").textContent = planDetails.planTalktime || 'N/A';
+            document.getElementById("planSms").textContent = planDetails.planSms || 'N/A';
+
+            localStorage.setItem("amount", planDetails.planPrice);
+            
+
+        } catch (error) {
+            console.error("Error fetching plan details:", error);
+            alert("Failed to load plan details. Please try again.");
+        }
+    } else {
+        console.warn("Plan ID not found in URL parameters.");
+    }
+});
+
+function initiateRazorpayPayment() {
+    const amount = parseInt(localStorage.getItem("amount")) * 100;  // Amount in paise (Razorpay requires this)
+
+    const options = {
+        key: "rzp_test_Jic0RqbBs1oId3", 
+        amount: amount,
+        currency: "INR",
+        name: "Swift Top",
+        description: "Plan Recharge",
+        image: "images/Screenshot__10_-removebg-preview.png",
+        handler: function (response) {
+            console.log("Payment Successful:", response);
+            alert(`Payment Successful! Payment ID: ${response.razorpay_payment_id}`);
+            confirmPayment(response.razorpay_payment_id);
+        },
+        prefill: {
+            name: "Subasri Chandrasekar",
+            email: "subasri@example.com",
+            contact: localStorage.getItem("phoneNumber")
+        },
+        theme: {
+            color: "#7DAECD"
+        }
+    };
+
+    const rzp = new Razorpay(options);
+
+    rzp.on('payment.failed', function (response) {
+        console.error("Payment Failed:", response.error);
+        alert(`Payment Failed: ${response.error.description}`);
     });
 
-    let confirmationModal = new bootstrap.Modal(document.getElementById("confirmationModal"));
-    confirmationModal.show();
+    rzp.open();
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-    const params = new URLSearchParams(window.location.search);
-    const plan = params.get("plan");
-    const price = params.get("price");
-    const duration = params.get("duration");
+// Confirm Payment API Call
+async function confirmPayment(paymentId) {
+    try {
+        const phoneNumber = localStorage.getItem("phoneNumber");
+        const userIdResponse = await fetch(`http://localhost:8083/auth/user/getUserIdByPhone/${phoneNumber}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("jwtToken").trim()}`
+            }
+        });
 
-    if (plan && price && duration) {
-      document.getElementById("upiPlanName").textContent = plan;
-      document.getElementById("upiPlanPrice").textContent = price;
-      document.getElementById("upiPlanDuration").textContent = duration;
-      // Net Banking Modal
-      document.getElementById("netPlanName").textContent = plan;
-      document.getElementById("netPlanPrice").textContent = price;
-      document.getElementById("netPlanDuration").textContent = duration;
-      // Wallet Modal
-      document.getElementById("walletPlanName").textContent = plan;
-      document.getElementById("walletPlanPrice").textContent = price;
-      document.getElementById("walletPlanDuration").textContent = duration;
-      // Card Modal
-      document.getElementById("cardPlanName").textContent = plan;
-      document.getElementById("cardPlanPrice").textContent = price;
-      document.getElementById("cardPlanDuration").textContent = duration;
-    } else {
-      console.warn("Plan details not found in URL parameters.");
+        if (!userIdResponse.ok) {
+            throw new Error(`Failed to fetch userId. Status: ${userIdResponse.status}`);
+        }
+
+        const userId = await userIdResponse.text();
+        const planId = new URLSearchParams(window.location.search).get("planId");
+        const amount = localStorage.getItem("amount");
+        const currentDateTime = new Date().toISOString().replace('Z', ''); // Removes 'Z'
+
+        const response = await fetch("http://localhost:8083/auth/user/transaction/confirm", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("jwtToken").trim()}`
+            },
+            body: JSON.stringify({
+                paymentId: paymentId,
+                userId: parseInt(userId),  
+                planId: planId,
+                amount: amount,
+                paymentStatus: "Success",
+                dateAndTime: currentDateTime
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to confirm payment. Status: ${response.status}`);
+        }
+
+        const transactionDetails = await response.json();
+        console.log("Payment Confirmation Response:", transactionDetails);
+        localStorage.setItem("transactionDetails", JSON.stringify(transactionDetails));
+        window.location.href = "payment-success.html";
+
+    } catch (error) {
+        console.error("Error confirming payment:", error);
+        alert("Failed to confirm payment. Please contact support.");
     }
-  });
+}
+

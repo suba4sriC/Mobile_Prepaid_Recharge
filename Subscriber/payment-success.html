@@ -62,11 +62,14 @@
             color: rgb(58, 96, 121);
             font-weight: 500;
         }
+        #trans-container{
+            padding-top: 100px;
+        }
     </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg fixed-top m-0">
-        <div class="container-fluid">
+        <div class="container-fluid ">
             <a class="navbar-brand text-dark d-flex align-items-center" href="home.html">
                 <img src="images/Screenshot__10_-removebg-preview.png" alt="Swift Top Logo" height="30"> 
                 <label class="ps-2 fs-3">Swift Top</label>
@@ -94,28 +97,54 @@
         </div>
     </nav>
 
-    <div class="container-fluid d-flex justify-content-center align-items-center" style="min-height: 110vh;">
-        <div class="card col-5  p-4 text-center">
+    <div id="trans-container"class="container-fluid d-flex justify-content-center align-items-center" >
+        <div class="card col-5 p-4 text-center">
             <i class="bi bi-check-circle-fill text-success display-4"></i>
             <h2 class="mt-3">Thank You!</h2>
             <p class="text-muted">Your payment has been successfully processed.</p>
-            <p> A confirmation email has been sent to your registered email address.</p>
+            <p>A confirmation email has been sent to your registered email address.</p>
             
             <div class="card mt-3 p-3">
-                <h4 class="plan-heading mb-3">Plan Details</h4>
-                <p class="text-center"><strong>Plan Name:</strong> Premium Plan</p>
-                <p class="price text-center "><strong>Price:</strong> ₹299</p>
-                <p class="text-center "><strong>Validity:</strong> 28 Days</p>
-                <p class="text-center "><strong>Data:</strong> 1GB/day</p>
-                <p class="text-center "><strong>Talktime:</strong> Unlimited</p>
-                <p class="text-center "><strong>SMS:</strong> 100 SMS</p>
+                <h4 class="plan-heading mb-3">Transaction Details</h4>
+                <p class="text-center"><strong>Mobile Number:</strong> <span id="mobileNumber"></span></p>
+                <p class="text-center"><strong>Payment ID:</strong> <span id="paymentId"></span></p>
+                <p class="text-center"><strong>Plan Name:</strong> <span id="planName"></span></p>
+                <p class="price text-center"><strong>Price:</strong> ₹<span id="amount"></span></p>
+                <p class="text-center"><strong>Validity:</strong> <span id="planValidity"></span></p>
+                <p class="text-center"><strong>Data:</strong> <span id="planData"></span></p>
+                <p class="text-center"><strong>Talktime:</strong> <span id="planTalktime"></span></p>
+                <p class="text-center"><strong>SMS:</strong> <span id="planSms"></span></p>
+                <p class="text-center"><strong>Transaction Date and time:</strong> <span id="dateTime"></span></p>
             </div>
-            
+    
             <div class="btn-container mt-4">
-                <a  class="btn col-3" download>Download </a>
+                <a class="btn col-3" download>Download</a>
                 <a href="home.html"><button class="btn col-3" onclick="window.close()">Close</button></a>
             </div>
         </div>
     </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const transactionDetails = JSON.parse(localStorage.getItem("transactionDetails"));
+            const mobileNumber = localStorage.getItem("phoneNumber")
+            console.log(transactionDetails)
+            console.log(transactionDetails.prepaidPlan.planName)
+            if (transactionDetails) {
+                document.getElementById("mobileNumber").textContent = mobileNumber;
+                document.getElementById("paymentId").textContent = transactionDetails.paymentId ;
+                document.getElementById("planName").textContent = transactionDetails.prepaidPlan.planName;
+                document.getElementById("amount").textContent = transactionDetails.amount || 'N/A';
+                document.getElementById("planValidity").textContent=transactionDetails.prepaidPlan.planValidity;
+                document.getElementById("planData").textContent=transactionDetails.prepaidPlan.planData;
+                document.getElementById("planTalktime").textContent=transactionDetails.prepaidPlan.planTalktime;
+                document.getElementById("planSms").textContent=transactionDetails.prepaidPlan.planSms;
+                document.getElementById("dateTime").textContent = transactionDetails.dateAndTime;
+            } else {
+                alert("Transaction details not found. Please contact support.");
+            }
+        });
+    </script>
+    
 </body>
 </html>
