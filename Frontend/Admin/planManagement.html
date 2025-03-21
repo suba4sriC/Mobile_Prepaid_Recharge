@@ -72,16 +72,6 @@
     background-color: rgb(159, 209, 242);
 }
 
-.notification-badge {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    padding: 3px 6px;
-    border-radius: 50%;
-    background: red;
-    color: white;
-    font-size: 12px;
-}
 
 .action-buttons {
     margin: 20px 0;
@@ -135,28 +125,7 @@
     transition: all 0.3s;
 }
 
-.plan-card {
-    transition: all 0.3s;
-    border: none;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    margin-bottom: 20px;
-}
 
-.plan-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-}
-
-.plan-card .card-header {
-    background-color: rgb(159, 209, 242);
-    color: #333;
-    font-weight: bold;
-}
-
-.plan-actions {
-    display: flex;
-    justify-content: space-between;
-}
 
 /* Responsive styles */
 @media (max-width: 991.98px) {
@@ -239,14 +208,11 @@
         <div class="main-content">
             <!-- Action Buttons -->
             <div class="action-buttons d-flex flex-wrap gap-3">
-                <button class="btn action-button" onclick="showContainer('add')">
-                    <i class="bi bi-plus-circle"></i> Add
+                <button class="btn action-button" onclick="showContainer('addCategoryContainer')">
+                    <i class="bi bi-plus-circle"></i> Add Category
                 </button>
-                <button class="btn action-button" onclick="showContainer('update')">
-                    <i class="bi bi-pencil-square"></i> Update
-                </button>
-                <button class="btn action-button" onclick="showContainer('delete')">
-                    <i class="bi bi-trash"></i> Delete
+                <button class="btn action-button" onclick="showContainer('addContainer')">
+                    <i class="bi bi-plus-circle"></i> Add Plan
                 </button>
             </div>
     
@@ -288,7 +254,7 @@
                                 <input type="number" class="form-control" name="price" placeholder="Enter price" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Duration (in months)</label>
+                                <label class="form-label">Duration (in days)</label>
                                 <input type="number" class="form-control" name="duration" placeholder="Enter duration" required>
                             </div>
                             <div class="action-footer text-center">
@@ -300,80 +266,7 @@
                 </form>
             </div>
             
-            <!-- Update Plan Container -->
-            <div id="updateContainer" class="plan-container">
-                <h3 class="mb-4">Update Plan</h3>
-                <form id="updatePlanForm">
-                    <div class="row">
-                        <!-- Left Side -->
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label">Select Plan to Update</label>
-                                <select class="form-select mb-4" id="planToUpdate" name="planId" required>
-                                    <option value="" selected disabled>Choose plan to update...</option>
-                                    <!-- Options will be populated by JavaScript -->
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Select Category</label>
-                                <select class="form-select" name="category" required>
-                                    <option value="" selected disabled>Choose category...</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Plan Name</label>
-                                <input type="text" class="form-control" name="planName" placeholder="Enter plan name" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Data</label>
-                                <input type="text" class="form-control" name="data" placeholder="Enter plan data" required>
-                            </div>
-                        </div>
             
-                        <!-- Right Side -->
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label">Number of SMS</label>
-                                <input type="text" class="form-control" name="sms" placeholder="Enter plan SMS count" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Talktime</label>
-                                <input type="text" class="form-control" name="talktime" placeholder="Enter plan talktime" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Price</label>
-                                <input type="number" class="form-control" name="price" placeholder="Enter price" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Duration (in months)</label>
-                                <input type="number" class="form-control" name="duration" placeholder="Enter duration" required>
-                            </div>
-                            <div class="action-footer text-center">
-                                <button type="button" class="btn btn-secondary me-2" onclick="hideContainers()">Cancel</button>
-                                <button type="submit" class="btn action-button">Update Plan</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            
-            <!-- Delete Plan Container -->
-            <div id="deleteContainer" class="plan-container">
-                <h3 class="mb-4">Delete Plan</h3>
-                <form id="deletePlanForm">
-                    <div class="mb-3">
-                        <label class="form-label">Select Plan to Delete</label>
-                        <select class="form-select" id="planToDelete" name="planId" required>
-                            <option value="" selected disabled>Choose plan to delete...</option>
-                            <!-- Options will be populated by JavaScript -->
-                        </select>
-                    </div>
-                    <div class="action-footer text-center">
-                        <button type="button" class="btn btn-secondary me-2" onclick="hideContainers()">Cancel</button>
-                        <button type="submit" class="btn btn-danger">Delete Plan</button>
-                    </div>
-                </form>
-            </div>
 
             <div id="addCategoryContainer" class="plan-container">
                 <h3 class="mb-4">Add Category</h3>
@@ -402,10 +295,10 @@
                             <th>SMS</th>
                             <th>Talktime</th>
                             <th>Validity</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody id="plansList">
-                        <!-- Plans will be dynamically populated -->
                     </tbody>
                 </table>
             </div>
@@ -414,7 +307,6 @@
         </div>
     </div>
 
-    <!-- Toast Container -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
         <div id="planToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
@@ -427,7 +319,6 @@
         </div>
     </div>
 
-    <!-- Confirmation Modal -->
     <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
