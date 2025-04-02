@@ -1,3 +1,4 @@
+// Function to handle login
 document.getElementById('loginForm').addEventListener('submit', async function(event) {
     event.preventDefault();
 
@@ -28,7 +29,11 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
             : await response.text();
 
         if (response.ok) {
-            localStorage.setItem('token', data.token);
+            // Store token only if data is JSON
+            if (typeof data === 'object' && data.token) {
+                localStorage.setItem('token', data.token);
+            }
+
             showToast('✅ Admin login successful!', 'success');
             setTimeout(() => {
                 window.location.href = 'dashboard.html';  

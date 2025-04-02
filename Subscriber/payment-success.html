@@ -118,33 +118,17 @@
             </div>
     
             <div class="btn-container mt-4">
-                <a class="btn col-3" download>Download</a>
+                <a id="downloadBtn" class="btn col-3" href="#">Download PDF</a>
+
                 <a href="home.html"><button class="btn col-3" onclick="window.close()">Close</button></a>
             </div>
         </div>
     </div>
     
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const transactionDetails = JSON.parse(localStorage.getItem("transactionDetails"));
-            const mobileNumber = localStorage.getItem("phoneNumber")
-            console.log(transactionDetails)
-            console.log(transactionDetails.prepaidPlan.planName)
-            if (transactionDetails) {
-                document.getElementById("mobileNumber").textContent = mobileNumber;
-                document.getElementById("paymentId").textContent = transactionDetails.paymentId ;
-                document.getElementById("planName").textContent = transactionDetails.prepaidPlan.planName;
-                document.getElementById("amount").textContent = transactionDetails.amount || 'N/A';
-                document.getElementById("planValidity").textContent=transactionDetails.prepaidPlan.planValidity;
-                document.getElementById("planData").textContent=transactionDetails.prepaidPlan.planData;
-                document.getElementById("planTalktime").textContent=transactionDetails.prepaidPlan.planTalktime;
-                document.getElementById("planSms").textContent=transactionDetails.prepaidPlan.planSms;
-                document.getElementById("dateTime").textContent = transactionDetails.dateAndTime;
-            } else {
-                alert("Transaction details not found. Please contact support.");
-            }
-        });
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+<script src="js/payment_success.js"></script>
+
     
 </body>
 </html>

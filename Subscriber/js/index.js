@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+    localStorage.clear()
     let generatedOTP;
     async function sendOTP() {
         let mobile = document.getElementById("mobile").value.trim();

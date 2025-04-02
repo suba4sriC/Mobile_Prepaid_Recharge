@@ -10,6 +10,9 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+ 
+
     
     <style>
         body {
@@ -161,15 +164,8 @@
                     <div class="card-header">
                         <h4>Active Plan</h4>
                     </div>
-                    <div class="card-body text-dark fs-5">
-                        <h5 class="card-title fs-4"> Unlimited</h5>
-                        <p class="card-text">
-                            <strong>Data:</strong> Unlimited<br>
-                            <strong>Calls:</strong> Unlimited<br>
-                            <strong>Validity:</strong> 54 days<br>
-                            <strong>Expires on:</strong> 15 Mar 2025<br>
-                            <strong>Price:</strong> ₹699
-                        </p>
+                    <div class="card-body text-dark fs-5" id="activePlanContainer">
+                        
                         <div class="button-container">
                             <a href="plans.html" class="btn  w-50 ">Change Plan</a>
                         </div>
@@ -184,28 +180,19 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-striped">
+                            <table id="transactionsTable" class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
-                                        <th class="ps-4">Date</th>
+                                        <th>Date</th>
                                         <th>Plan</th>
                                         <th>Amount</th>
-                                        <th>Mode of Payment</th>
                                         <th>Time</th>
                                         <th>Invoice</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>15 Jan 2025</td>
-                                        <td>Unlimited</td>
-                                        <td class="price">₹699</td>
-                                        <td>UPI</td>
-                                        <td>09:27 AM</td>
-                                        <td><a href="receipt.pdf" download="receipt.pdf" class="text-dark">Download Receipt</a></td>
-                                        <td><span class="badge bg-success">Successful</span></td>
-                                    </tr>
+                                <tbody id="transactionHistory">
+                                    
                                     <!-- More transactions here -->
                                 </tbody>
                             </table>
@@ -216,49 +203,14 @@
         </div>
     </div>
     
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-                const urlParams = new URLSearchParams(window.location.search);
-                const phoneNumber = decodeURIComponent(urlParams.get('phoneNumber') || '').trim();
-                const jwtToken = localStorage.getItem("jwtToken");
-
-                console.log("✅ Extracted Phone Number:", phoneNumber);  // Debugging Line
-
-                if (!phoneNumber) {
-                    console.warn("❌ Phone number is missing in URL parameters.");
-                    return;
-                }
-
-                fetch(`http://localhost:8083/auth/user/profile?phoneNumber=${encodeURIComponent(phoneNumber)}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + jwtToken.trim() 
-                }
-            })
-            .then(response => {
-                console.log("🔍 Full Response Object:", response);
-
-                if (!response.ok) {
-                    throw new Error(`❌ HTTP Error: ${response.status} - ${response.statusText}`);
-                }
-
-                return response.json();  // Correct way to read the body
-            })
-            .then(data => {
-                console.log("✅ API Response Data:", data);
-
-                // Data population logic
-                document.getElementById('name').value = data.userName || 'Subasri C';
-                document.getElementById('phone').value = data.phoneNumber || '9943901998';
-                document.getElementById('email').value = data.userEmail || '2k21cse152@kiot.ac.in';
-                document.getElementById('address').value = data.userAddress || '23/15, Sri Nagar, Salem - 636001';
-            })
-            .catch(error => {
-                console.error('❌ Error fetching profile data:', error);
-            });
-
-        });
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="js/profile.js">
+        
     </script>
     
 

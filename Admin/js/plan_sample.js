@@ -1,4 +1,6 @@
 // Utility function to show toast notifications
+
+
 function showToast(message, isSuccess = true) {
     const toast = new bootstrap.Toast(document.getElementById('planToast'));
     document.getElementById('toastMessage').textContent = message;
@@ -9,13 +11,33 @@ function showToast(message, isSuccess = true) {
 }
 
 async function fetchPlans() {
+    const token = localStorage.getItem("token"); 
+    if (!token) {
+        showToast("User not authenticated. Please log in.", false);
+        return;
+    }
+
     try {
-        const response = await fetch('http://localhost:8083/auth/api/prepaidplan');
+        const response = await fetch("http://localhost:8083/auth/api/prepaidplan", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch plans.");
+        }
+
         const plans = await response.json();
+        console.log("📜 Plans Data:", plans);
 
-        const planList = document.getElementById('plansList');
-        planList.innerHTML = ''; // Clear existing data
+        // Clear old data
+        const planList = document.getElementById("plansList");
+        planList.innerHTML = "";
 
+        // Populate table rows
         plans.forEach(plan => {
             const planRow = `
                 <tr>
@@ -37,21 +59,44 @@ async function fetchPlans() {
             planList.innerHTML += planRow;
         });
 
+        // Initialize DataTable (Destroy if already initialized)
+        if ($.fn.DataTable.isDataTable("#plansTable")) {
+            $('#plansTable').DataTable().destroy();
+        }
+        
         $('#plansTable').DataTable({
-            destroy: true,
             responsive: true,
             autoWidth: false,
-            lengthMenu: [5, 10, 20],
+            pageLength: 5,
+            lengthMenu: [[5, 10, 20, -1], [5, 10, 20, "All"]],
         });
 
     } catch (error) {
-        showToast('Failed to load plans.', false);
+        console.error("❌ Error fetching plans:", error);
+        showToast("Failed to load plans. Please log in again.", false);
     }
 }
 
+
 async function fetchCategory() {
     try {
-        const response = await fetch('http://localhost:8083/auth/api/prepaidplan/category');
+        const jwtToken = localStorage.getItem("token");
+        if (!jwtToken) {
+            throw new Error("JWT Token missing.");
+        }
+
+        const response = await fetch('http://localhost:8083/auth/api/prepaidplan/category', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${jwtToken.trim()}`,  // Add Authorization header
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to fetch categories. Status: ${response.status}`);
+        }
+
         const category = await response.json();
 
         const categoryDropdowns = document.querySelectorAll('[name="category"]');
@@ -61,63 +106,130 @@ async function fetchCategory() {
 
             category.forEach(cat => {
                 const option = document.createElement('option');
-                option.value = cat.categoryName;
+                option.value = cat.categoryId;
                 option.textContent = cat.categoryName;
                 dropdown.appendChild(option);
             });
         });
 
     } catch (error) {
+        console.error("Error fetching categories:", error);
         showToast('Failed to load categories.', false);
     }
 }
 
-async function addPlan() {
-    const planName = document.querySelector('[name="planName"]').value.trim();
-    const category = document.querySelector('[name="category"]').value;
-    const data = document.querySelector('[name="data"]').value.trim();
-    const sms = document.querySelector('[name="sms"]').value.trim();
-    const talktime = document.querySelector('[name="talktime"]').value.trim();
-    const price = parseFloat(document.querySelector('[name="price"]').value);
-    const duration = parseInt(document.querySelector('[name="duration"]').value);
 
-    if (!planName || !category || !data || !sms || !talktime || isNaN(price) || isNaN(duration)) {
-        showToast('Please fill all required fields correctly.', false);
+async function deletePlan(planId) {
+    const token = localStorage.getItem("token");
+    if (!confirm("Are you sure you want to delete this plan?")) return;
+
+    try {
+        const response = await fetch(`http://localhost:8083/auth/api/prepaidplan/${planId}`, {
+            method: "DELETE",
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+
+        console.log("Delete response status:", response.status);
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Failed to delete plan: ${errorText}`);
+        }
+        showToast("Plan deleted successfully!", true);
+        fetchPlans();
+
+    } catch (error) {
+        console.error("Error deleting plan:", error);
+        showToast(error.message, false);
+    }
+}
+
+
+
+document.getElementById('addPlanForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem("token");
+    if (!token) {
+        showToast("User not authenticated. Please log in.", false);
         return;
     }
-
+    
+    const form = e.target;
+    const formData = new FormData(form);
+    // Extract categoryId from the form data
+    const categoryId = formData.get('category');
+    console.log("Category ID:", categoryId);
+    
+    // Create plan data without categoryId, since it is sent via query parameter
     const planData = {
-        planName,
-        category,
-        planData:data,
-        planSms:sms,
-        planTalktime:talktime,
-        planPrice: price,
-        planValidity: duration
+        planName: formData.get('planName'),
+        planData: formData.get('data'),
+        planSms: formData.get('sms'),
+        planTalktime: formData.get('talktime'),
+        planPrice: parseFloat(formData.get('price')),
+        planValidity: parseInt(formData.get('duration'))
     };
 
     try {
-        const response = await fetch('http://localhost:8083/auth/api/prepaidplan?categoryId=${categoryId}', {
-            method: 'POST',
+        // Append categoryId as a query parameter in the URL
+        const response = await fetch(`http://localhost:8083/auth/api/prepaidplan?categoryId=${categoryId}`, {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify(planData)
         });
-
-        if (response.ok) {
-            showToast('Plan added successfully!');
-            fetchPlans(); 
-            document.getElementById('addPlanForm').reset(); // Clear form
-            hideContainers();
-        } else {
-            showToast('Failed to add plan. Please try again.', false);
-        }
-
+        if (!response.ok) throw new Error("Failed to add plan.");
+        showToast("Plan added successfully!", true);
+        form.reset();
+        hideContainers();
+        fetchPlans();
     } catch (error) {
-        showToast('Error connecting to server.', false);
+        console.error("❌ Error adding plan:", error);
+        showToast(error.message, false);
     }
-}
+});
+
+
+document.getElementById('addCategoryForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem("token");
+    if (!token) {
+        showToast("User not authenticated. Please log in.", false);
+        return;
+    }
+    
+    const form = e.target;
+    const formData = new FormData(form);
+    const categoryData = {
+        categoryName: formData.get('categoryName')
+    };
+
+    try {
+        const response = await fetch("http://localhost:8083/auth/api/prepaidplan/category", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify(categoryData)
+        });
+        if (!response.ok) throw new Error("Failed to add category.");
+        showToast("Category added successfully!", true);
+        form.reset();
+        hideContainers();
+        // Optionally, refresh the category dropdowns if needed
+        fetchCategory();
+    } catch (error) {
+        console.error("Error adding category:", error);
+        showToast(error.message, false);
+    }
+});
+
+
+
+
 
 function showContainer(containerId) {
     document.getElementById('addContainer').classList.remove('active');

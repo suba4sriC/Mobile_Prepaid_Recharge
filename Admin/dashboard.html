@@ -14,70 +14,155 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            /* margin: 0;
-            padding: 0; */
-            padding-top: 80px;
-            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            padding-top: 65px; /* Account for fixed navbar */
         }
+
         .navbar {
             background-color: rgb(159, 209, 242);
             height: 65px;
             border-bottom: 1px solid;
             padding: 10px;
+            z-index: 1030;
         }
+
         .sidebar {
             background-color: white;
-            height: 100vh;
+            height: calc(100vh - 65px);
             position: fixed;
             width: 250px;
             box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            z-index: 1020;
             top: 65px;
             left: 0;
-            z-index: 100;
-            transition: all 0.3s;
+            overflow-y: auto;
+            transition: all 0.3s ease;
         }
-        .content {
-            margin-left: 250px;
-            padding: 20px;
-            transition: 0.3s;
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
         }
+
         .sidebar ul li {
-            padding: 15px 20px;
+            padding: 0;
             font-size: 18px;
             border-bottom: 1px solid #ddd;
         }
+
         .sidebar ul li a {
             text-decoration: none;
             color: #333;
             display: flex;
             align-items: center;
+            padding: 15px 20px;
+            width: 100%;
         }
+
+        .sidebar ul li a i {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+
         .sidebar ul li:hover {
             background-color: rgb(159, 209, 242);
         }
-        .chart-container {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            padding: 3px 6px;
+            border-radius: 50%;
+            background: red;
+            color: white;
+            font-size: 12px;
         }
-        @media (max-width: 768px) {
+
+        .section-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .card {
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            height: 100%;
+        }
+
+        .btn-notify {
+            background-color: rgb(159, 209, 242);
+            border: none;
+        }
+
+        .btn-notify:hover {
+            background-color: rgb(139, 189, 222);
+        }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            transition: margin-left 0.3s ease;
+        }
+
+        .chart-container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            height: 300px;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 991.98px) {
             .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
+                width: 0;
+                overflow: hidden;
             }
-            .content {
+            
+            .sidebar.show {
+                width: 250px;
+            }
+            
+            .main-content {
                 margin-left: 0;
+                width: 100%;
+            }
+            
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 767.98px) {
+            .navbar {
+                height: auto;
+            }
+            
+            .section-title {
+                font-size: 20px;
+            }
+            
+            .button-container {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .button-container .btn {
+                width: 100%;
             }
         }
     </style>
 </head>
 
 <body>
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container-fluid">
-            <button class="btn btn-outline-dark d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu">
+            <button class="btn btn-outline-dark d-lg-none" type="button" id="sidebarToggle">
                 <i class="bi bi-list"></i>
             </button>
             <a class="navbar-brand d-flex align-items-center ps-3" href="#">
@@ -87,67 +172,132 @@
         </div>
     </nav>
 
-    <div class="d-flex">
-        <div class="sidebar collapse d-md-block" id="sidebarMenu">
-            <ul class="list-group">
-                <li class="list-group-item"><a href="#"><i class="bi bi-house-door"></i>  Dashboard</a></li>
-                <li class="list-group-item"><a href="subscriberManagement.html"><i class="bi bi-people"></i> Subscribers</a></li>
-                <li class="list-group-item"><a href="planManagement.html"><i class="bi bi-card-heading"></i> Plans</a></li>
-                <li class="list-group-item"><a href="supportManagement.html"><i class="bi bi-chat-dots"></i> Support</a></li>
-                <li class="list-group-item"><a href="adminLogin.html"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
-            </ul>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <ul class="list-group">
+            <li class="list-group-item"><a href="dashboard.html"><i class="bi bi-house-door"></i> Dashboard</a></li>
+            <li class="list-group-item"><a href="subscriberManagement.html"><i class="bi bi-people"></i> Subscribers</a></li>
+            <li class="list-group-item"><a href="planManagement.html"><i class="bi bi-card-heading"></i> Plans</a></li>
+            <li class="list-group-item"><a href="support.html"><i class="bi bi-chat-dots"></i> Support</a></li>
+            <li class="list-group-item"><a href="subscriberRegister.html"><i class="bi bi-person-plus"></i> Subscriber Register</a></li>
+            <li class="list-group-item"><a href="adminLogin.html"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h2 class="mb-4">Dashboard</h2>
+        <div class="row g-4">
+            <div class="col-md-3 col-sm-6">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Total Users</h5>
+                        <h2 class="mt-3 mb-0">700</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Expiring Plans</h5>
+                        <h2 class="mt-3 mb-0">45</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Total Revenue</h5>
+                        <h2 class="mt-3 mb-0">₹52,680</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Total Transactions</h5>
+                        <h2 class="mt-3 mb-0">1,240</h2>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="content w-100">
-            <h2>Dashboard</h2>
-            <div class="row mt-4">
-                <div class="col-md-3 col-6 mb-3">
-                    <div class="card shadow">
-                        <div class="card-body">
-                            <h5>Total Users</h5>
-                            <h2>700</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6 mb-3">
-                    <div class="card shadow">
-                        <div class="card-body">
-                            <h5>Expiring Plans</h5>
-                            <h2>45</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6 mb-3">
-                    <div class="card shadow">
-                        <div class="card-body">
-                            <h5>Total Revenue</h5>
-                            <h2>₹52,680</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6 mb-3">
-                    <div class="card shadow">
-                        <div class="card-body">
-                            <h5>Total Transactions</h5>
-                            <h2>1,240</h2>
+        
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Payment Methods</h5>
+                        <div class="chart-container">
+                            <canvas id="paymentMethodsChart"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="chart-container">
-                        <canvas id="paymentMethodsChart"></canvas>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="chart-container">
-                        <canvas id="subscriptionPlansChart"></canvas>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Subscription Plans</h5>
+                        <div class="chart-container">
+                            <canvas id="subscriptionPlansChart"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="js/dashboard.js"></script>
+    <script>
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('show');
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const paymentCtx = document.getElementById('paymentMethodsChart').getContext('2d');
+            const paymentChart = new Chart(paymentCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Credit Card', 'Debit Card', 'UPI', 'Net Banking'],
+                    datasets: [{
+                        data: [45, 25, 20, 10],
+                        backgroundColor: [
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(153, 102, 255, 0.7)',
+                            'rgba(255, 159, 64, 0.7)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+
+            const subscriptionCtx = document.getElementById('subscriptionPlansChart').getContext('2d');
+            const subscriptionChart = new Chart(subscriptionCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Basic', 'Standard', 'Premium', 'Enterprise'],
+                    datasets: [{
+                        label: 'Number of Subscribers',
+                        data: [250, 300, 120, 30],
+                        backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>
