@@ -13,7 +13,7 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
 
-    private static final String SECRET_KEY = "YourSecretKeyForJWTGenerationShouldBeLongerThanThisForSecurity";
+    private static final String SECRET_KEY = "K9e25z91O+RHZ1c+scd1rIbgq5iXZnTbOaHrjXyJ9Mw=";
     private static final long EXPIRATION_TIME = 86400000; // 1 day
 
     public String generateToken(String identifier, String role) {

@@ -1,15 +1,15 @@
 async function fetchPlans() {
     try {
-        const jwtToken = localStorage.getItem("jwtToken"); // Retrieve token
+        const jwtToken = localStorage.getItem("jwtToken"); 
         if (!jwtToken) {
-            console.error("❌ No Bearer token found in localStorage");
+            console.error(" No Bearer token found in localStorage");
             return;
         }
 
         const response = await fetch('http://localhost:8083/auth/api/prepaidplan', {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${jwtToken}`, // Include Bearer token
+                'Authorization': `Bearer ${jwtToken}`, 
                 'Content-Type': 'application/json'
             }
         });
@@ -19,7 +19,6 @@ async function fetchPlans() {
         }
 
         const data = await response.json();
-        console.log('API Response:', data);
 
         const navTabs = document.getElementById('nav-tabs');
         const tabContent = document.getElementById('tab-content');
@@ -112,7 +111,6 @@ async function fetchPlans() {
     }
 }
 
-// Function to redirect to payment page
 function rechargeNow(planId) {
     const queryParams = new URLSearchParams({
         planId: planId
@@ -121,5 +119,4 @@ function rechargeNow(planId) {
     window.location.href = `payment.html?${queryParams.toString()}`;
 }
 
-// Load plans when the page is ready
 document.addEventListener('DOMContentLoaded', fetchPlans);

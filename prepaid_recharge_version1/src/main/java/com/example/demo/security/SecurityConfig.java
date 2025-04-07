@@ -53,7 +53,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/send-otp","/auth/login","/auth/admin/login").permitAll() 
                         .requestMatchers("/auth/admin/**").hasAuthority("ADMIN") 
-                        .requestMatchers(HttpMethod.GET, "/auth/api/prepaidplan", "/auth/api/prepaidplan/category", "/auth/api/prepaidplan/{planId}")
+                        .requestMatchers("/auth/api/prepaidplan", "/auth/api/prepaidplan/category", "/auth/api/prepaidplan/{planId}")
                         .hasAnyAuthority("SUBSCRIBER", "ADMIN") // Allow both roles
  
                         .requestMatchers("/auth/api/prepaidplan/**").hasAuthority("ADMIN")

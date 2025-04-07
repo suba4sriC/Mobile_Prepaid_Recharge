@@ -11,7 +11,17 @@ document.addEventListener("DOMContentLoaded", async function () {
         document.getElementById("planData").textContent = transactionDetails.prepaidPlan.planData;
         document.getElementById("planTalktime").textContent = transactionDetails.prepaidPlan.planTalktime;
         document.getElementById("planSms").textContent = transactionDetails.prepaidPlan.planSms;
-        document.getElementById("dateTime").textContent = transactionDetails.dateAndTime;
+
+        const rawDate = new Date(transactionDetails.dateAndTime);
+        const formattedDate = rawDate.toLocaleString("en-IN", {
+            year: "numeric",
+            month: "long",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+        });
+        document.getElementById("dateTime").textContent = formattedDate;
 
         // Attach event listener to the download button
         document.getElementById("downloadBtn").addEventListener("click", function () {
@@ -26,13 +36,12 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 
 
-// Function to send email with transaction details
 async function sendPaymentEmail(transactionDetails) {
     try {
-        const userEmail = transactionDetails.prepaidUser.userEmail; // Directly get the email from response
+        const userEmail = transactionDetails.prepaidUser.userEmail; 
 
         if (!userEmail) {
-            console.error("❌ User email not found in transaction details.");
+            console.error("User email not found in transaction details.");
             return;
         }
         const token = localStorage.getItem("jwtToken");
@@ -60,13 +69,12 @@ async function sendPaymentEmail(transactionDetails) {
         }
 
         const result = await response.text();
-        console.log("✅ Email sent successfully:", result);
+        console.log(" Email sent successfully:", result);
     } catch (error) {
-        console.error("❌ Error sending email:", error);
+        console.error(" Error sending email:", error);
     }
 }
 
-// Function to generate and download PDF with transaction details
 function generatePDF(transactionDetails, mobileNumber) {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
@@ -74,6 +82,16 @@ function generatePDF(transactionDetails, mobileNumber) {
     doc.setFont("helvetica", "bold");
     doc.setFontSize(16);
     doc.text("Transaction Details", 80, 20);
+
+    const rawDate = new Date(transactionDetails.dateAndTime);
+    const formattedDate = rawDate.toLocaleString("en-IN", {
+        year: "numeric",
+        month: "short",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+    });
 
     const tableData = [
         ["Mobile Number", mobileNumber],
@@ -84,7 +102,7 @@ function generatePDF(transactionDetails, mobileNumber) {
         ["Data", transactionDetails.prepaidPlan.planData],
         ["Talktime", transactionDetails.prepaidPlan.planTalktime],
         ["SMS", transactionDetails.prepaidPlan.planSms],
-        ["Transaction Date & Time", transactionDetails.dateAndTime],
+        ["Transaction Date & Time",  formattedDate],
     ];
 
     doc.autoTable({

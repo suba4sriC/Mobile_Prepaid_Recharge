@@ -156,11 +156,9 @@ document.getElementById('addPlanForm').addEventListener('submit', async (e) => {
     
     const form = e.target;
     const formData = new FormData(form);
-    // Extract categoryId from the form data
     const categoryId = formData.get('category');
     console.log("Category ID:", categoryId);
     
-    // Create plan data without categoryId, since it is sent via query parameter
     const planData = {
         planName: formData.get('planName'),
         planData: formData.get('data'),
@@ -171,7 +169,6 @@ document.getElementById('addPlanForm').addEventListener('submit', async (e) => {
     };
 
     try {
-        // Append categoryId as a query parameter in the URL
         const response = await fetch(`http://localhost:8083/auth/api/prepaidplan?categoryId=${categoryId}`, {
             method: "POST",
             headers: {
@@ -186,7 +183,7 @@ document.getElementById('addPlanForm').addEventListener('submit', async (e) => {
         hideContainers();
         fetchPlans();
     } catch (error) {
-        console.error("❌ Error adding plan:", error);
+        console.error("Error adding plan:", error);
         showToast(error.message, false);
     }
 });
@@ -219,7 +216,6 @@ document.getElementById('addCategoryForm').addEventListener('submit', async (e) 
         showToast("Category added successfully!", true);
         form.reset();
         hideContainers();
-        // Optionally, refresh the category dropdowns if needed
         fetchCategory();
     } catch (error) {
         console.error("Error adding category:", error);
@@ -243,10 +239,11 @@ function hideContainers() {
     document.getElementById('addCategoryContainer').classList.remove('active');
 }
 
+document.getElementById('sidebarToggle').addEventListener('click', function() {
+    document.getElementById('sidebar').classList.toggle('show');
+});
 
 
-
-// On page load
 window.onload = () => {
     fetchPlans();
     fetchCategory();

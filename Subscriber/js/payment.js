@@ -81,7 +81,6 @@ function initiateRazorpayPayment() {
     rzp.open();
 }
 
-// Confirm Payment API Call
 async function confirmPayment(paymentId) {
     try {
         const phoneNumber = localStorage.getItem("phoneNumber");

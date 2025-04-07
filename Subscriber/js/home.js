@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById("phone").value = phoneNumber;
 
     } else {
-        console.warn("❌ Phone number not found in URL parameters.");
+        console.warn("Phone number not found in URL parameters.");
     }
 
 });
@@ -17,7 +17,7 @@ document.getElementById("profileLink").addEventListener("click", function(e) {
         const encodedPhoneNumber = encodeURIComponent(phoneNumber);
         window.location.href = `profile_sample.html?phoneNumber=${encodedPhoneNumber}`;
     } else {
-        alert("❌ Please enter a valid phone number before proceeding.");
+        alert("Please enter a valid phone number before proceeding.");
     }
 });
 

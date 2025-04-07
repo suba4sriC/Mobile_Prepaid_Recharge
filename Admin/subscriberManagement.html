@@ -18,20 +18,28 @@
     <style>
         body { 
             font-family: 'Poppins', sans-serif; 
+            margin: 0;
+            padding: 0;
+            padding-top: 65px;
         }
         .navbar { 
             background-color: rgb(159, 209, 242); 
             height: 65px; 
             border-bottom: 1px solid; 
             padding: 10px; 
+            z-index: 1030;
         }
         .sidebar { 
             background-color: white; 
             height: 100vh; 
             position: fixed; 
             width: 250px; 
-            padding-top: 15px; 
-            box-shadow: 2px 0 5px rgba(0,0,0,0.1); 
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            z-index: 1020;
+            top: 65px;
+            left: 0;
+            overflow-y: auto;
+            transition: all 0.3s ease;
         }
         .sidebar ul { 
             list-style: none; 
@@ -42,8 +50,24 @@
             font-size: 18px; 
             border-bottom: 1px solid #ddd; 
         }
+        .sidebar ul li a {
+            text-decoration: none;
+            color: #333;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar ul li a i {
+            margin-right: 10px;
+            font-size: 20px;
+        }
         .sidebar ul li:hover { 
             background-color: rgb(159, 209, 242); 
+        }
+        .main-content {
+        margin-left: 250px;
+        padding: 20px;
+        transition: margin-left 0.3s ease;
         }
         .search-box {
             background-color: white;
@@ -58,6 +82,33 @@
         .search-btn:hover {
             background-color: rgb(129, 179, 212);
         }
+
+        @media (max-width: 991.98px) {
+            .sidebar {
+                display: none;
+            }
+            
+            .sidebar.show {
+                display: block;
+                width: 250px;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+            
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 767.98px) {
+            .navbar {
+                height: auto;
+            }
+            
+        }
     </style>
 </head>
 
@@ -65,46 +116,33 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container-fluid">
+            <button class="btn btn-outline-dark d-lg-none" type="button" id="sidebarToggle">
+                <i class="bi bi-list"></i>
+            </button>
             <a class="navbar-brand d-flex align-items-center ps-3" href="dashboard.html">
                 <img src="images/Screenshot__10_-removebg-preview.png" alt="Swift Top Logo" height="30">
                 <span class="ps-2 fs-4">Swift Top</span>
             </a>
         </div>
     </nav>
+  
+        <div class="sidebar" id="sidebar">
+            <ul class="list-group">
+                <li class="list-group-item"><a href="dashboard.html" class="text-dark fs-5 text-decoration-none"><i class="bi bi-house-door"></i> Dashboard</a></li>
+                <li class="list-group-item"><a href="subscriberManagement.html" class="text-dark fs-5  text-decoration-none"><i class="bi bi-people"></i> Subscribers</a></li>
+                <li class="list-group-item"><a href="planManagement.html" class="text-dark fs-5  text-decoration-none"><i class="bi bi-card-heading"></i> Plans</a></li>
+                <li class="list-group-item"><a href="supportManagement.html" class="text-dark fs-5  text-decoration-none"><i class="bi bi-chat-dots"></i> Support</a></li>
+                <li class="list-group-item"><a href="subscriberRegister.html" class="text-decoration-none text-dark fs-5"><i class="bi bi-person-plus"></i></i> Subscriber Register</a></li>
+                <li class="list-group-item"><a href="adminLogin.html" class="text-dark fs-5  text-decoration-none"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
+            </ul>
+        </div>
+
+
     
-    <div class="container-fluid mt-5">
-        <div class="row">
-            <!-- Sidebar -->
-            <div class="col-md-2 col-12 p-0">
-                <div class="sidebar">
-                    <ul class="list-group">
-                        <li class="list-group-item"><a href="dashboard.html" class="text-dark fs-5 text-decoration-none"><i class="bi bi-house-door"></i> Dashboard</a></li>
-                        <li class="list-group-item pt-4"><a href="subscriberManagement.html" class="text-dark fs-5  text-decoration-none"><i class="bi bi-people"></i> Subscribers</a></li>
-                        <li class="list-group-item pt-4"><a href="planManagement.html" class="text-dark fs-5  text-decoration-none"><i class="bi bi-card-heading"></i> Plans</a></li>
-                        <li class="list-group-item pt-4"><a href="supportManagement.html" class="text-dark fs-5  text-decoration-none"><i class="bi bi-chat-dots"></i> Support</a></li>
-                        <li class="list-group-item"><a href="subscriberRegister.html" class="text-decoration-none text-dark fs-5"><i class="bi bi-person-plus"></i></i> Subscriber Register</a></li>
-                        <li class="list-group-item pt-4"><a href="adminLogin.html" class="text-dark fs-5  text-decoration-none"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <!-- Main Content -->
-            <div class="col-md-10 p-4">
+            <div class="main-content">
                 <h3 class="mb-4">Subscribers</h3>
                 
-                <!-- Search Row -->
-                <!-- <div class="row mb-4">
-                    <div class="col-md-6">
-                        <div class="search-box">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search by mobile number..." id="searchMobile">
-                                <button class="btn search-btn text-white" onclick="searchSubscriber()">
-                                    <span><i class="bi bi-search"></i> Search</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
+                
 
                 <!-- Subscribers List -->
                 <div id="subscribersList" class="mb-4">
@@ -182,8 +220,7 @@
                     </table>
                 </div>
             </div>
-        </div>
-    </div>
+        
     
     <script src="js/subscriberManagement.js"> </script>
 </body>

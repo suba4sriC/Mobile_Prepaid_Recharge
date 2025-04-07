@@ -47,9 +47,9 @@ public class AuthController {
 
         String generatedOtp = String.valueOf(new Random().nextInt(900000) + 100000);
         otpStorage.put(phoneNumber, generatedOtp);
-
+        System.out.println(generatedOtp);
         try {
-            twilioService.sendSms(phoneNumber, generatedOtp);
+//            twilioService.sendSms(phoneNumber, generatedOtp);
             return ResponseEntity.ok(Map.of(
                 "message", "✅ OTP sent successfully.",
                 "otp", generatedOtp 

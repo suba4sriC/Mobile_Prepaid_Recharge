@@ -25,9 +25,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const data = await response.json();
             if (response.ok) {
-                generatedOTP = data.otp; // Mock OTP in response (For Testing)
+                generatedOTP = data.otp; 
                 mobileError.textContent = ""; 
-                // document.getElementById("otp-display").textContent = "Your OTP is: " + generatedOTP;
+                document.getElementById("otp-display").textContent = "Your OTP is: " + generatedOTP;
 
                 document.getElementById("step1").style.display = "none";
                 document.getElementById("step2").style.display = "block";

@@ -66,6 +66,10 @@ function viewHistory(subscriber) {
     }
 }
 
+document.getElementById('sidebarToggle').addEventListener('click', function() {
+    document.getElementById('sidebar').classList.toggle('show');
+});
+
 function backToList() {
     document.getElementById("subscribersList").classList.remove("d-none");
     document.getElementById("history").classList.add("d-none");

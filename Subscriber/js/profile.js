@@ -5,7 +5,7 @@
         const jwtToken = localStorage.getItem("jwtToken");
 
         if (!phoneNumber) {
-            console.warn("❌ Phone number is missing in URL parameters.");
+            console.warn("Phone number is missing in URL parameters.");
             return;
         }
 
@@ -17,7 +17,7 @@
 
     async function fetchUserProfile(phoneNumber, jwtToken) {
         if (!phoneNumber || !jwtToken) {
-            console.error("❌ Missing phone number or JWT token.");
+            console.error("Missing phone number or JWT token.");
             return;
         }
     
@@ -30,17 +30,17 @@
                 }
             });
     
-            console.log("✅ Fetch Response Status:", response.status);
+            console.log("Fetch Response Status:", response.status);
     
             if (!response.ok) {
                 throw new Error(`❌ Failed to fetch profile. HTTP Status: ${response.status}`);
             }
     
             const data = await response.json();
-            console.log("✅ User Profile Data:", data);
+            console.log(" User Profile Data:", data);
     
             if (!data) {
-                throw new Error("❌ Received empty profile data.");
+                throw new Error("Received empty profile data.");
             }
     
             // Ensure the elements exist before setting values
@@ -50,7 +50,7 @@
             document.getElementById('address').value = data.userAddress || '';
     
         } catch (error) {
-            console.error("❌ Error fetching profile:", error);
+            console.error(" Error fetching profile:", error);
             alert("Failed to fetch profile. Please try again later.");
         }
     }
@@ -174,7 +174,7 @@
                 console.error("Transaction history table element not found.");
                 return;
             }
-            transactionHistoryTable.innerHTML = ""; // Clear existing entries
+            transactionHistoryTable.innerHTML = ""; 
     
             if (Array.isArray(transactionDetails) && transactionDetails.length > 0) {
                 transactionDetails.forEach(transaction => {
