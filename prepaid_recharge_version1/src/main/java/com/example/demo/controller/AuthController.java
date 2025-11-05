@@ -77,8 +77,6 @@ public class AuthController {
         if (user.getStatus() != Status.ACTIVE) {
             return ResponseEntity.status(403).body("User account is inactive.");
         }
-
-        // Generate JWT Token
         String token = jwtUtil.generateToken(phoneNumber, user.getRole().name());
         otpStorage.remove(phoneNumber);
 
